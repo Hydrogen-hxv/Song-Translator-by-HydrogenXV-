@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song Translator v4.1 - hxvapp.com</title>
+    <title>Song Translator v4.1.3 - hxvapp.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;700&display=swap"
@@ -37,6 +37,37 @@
             font-weight: bold;
             color: #4f46e5;
         }
+
+        /* Custom Toast Animation */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .toast-enter {
+            animation: slideInRight 0.3s forwards;
+        }
+
+        .toast-exit {
+            animation: fadeOut 0.3s forwards;
+        }
     </style>
 </head>
 
@@ -50,12 +81,12 @@
                 <div class="leading-tight">
                     <span class="block font-heading font-bold text-lg text-slate-800">hxvapp.com</span>
                     <span class="block text-[10px] text-slate-500 font-medium">Song Translator v4.1 (Build
-                        07072546/2)</span>
+                        07072026/3)</span>
                 </div>
             </div>
 
             <div class="flex gap-3 md:gap-4 items-center">
-                <button onclick="openChangelog()"
+                <button onclick="openModal('changelogModal')"
                     class="hidden md:block text-slate-500 hover:text-indigo-600 text-sm font-medium"><i
                         class="fa-solid fa-clock-rotate-left mr-1"></i> Changelog</button>
                 <button onclick="login()" id="loginBtn"
@@ -64,7 +95,9 @@
                 <div id="user-menu" class="hidden flex items-center gap-2 md:gap-3">
                     <button onclick="openSettings()" class="text-slate-400 hover:text-indigo-600 transition"
                         title="ตั้งค่าโปรไฟล์และ BYOK"><i class="fa-solid fa-sliders text-lg md:text-xl"></i></button>
-                    <img id="nav-avatar" src="" class="w-8 h-8 rounded-full object-cover border-2 border-indigo-100">
+                    <img id="nav-avatar" src=""
+                        class="w-8 h-8 rounded-full object-cover border-2 border-indigo-100 cursor-pointer"
+                        onclick="openSettings()">
                     <button onclick="logout()" class="text-slate-400 hover:text-red-500 transition"
                         title="ออกจากระบบ"><i class="fa-solid fa-arrow-right-from-bracket text-lg"></i></button>
                 </div>
@@ -94,13 +127,13 @@
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1">ชื่อเพลง</label>
-                                <input type="text" id="songTitle"
+                                <input type="text" id="songTitle" autocomplete="off"
                                     class="w-full border p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-sm"
                                     placeholder="Title">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1">ศิลปิน</label>
-                                <input type="text" id="artist"
+                                <input type="text" id="artist" autocomplete="off"
                                     class="w-full border p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-sm"
                                     placeholder="Artist">
                             </div>
@@ -108,25 +141,25 @@
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-1">ลิงก์สื่อ (YouTube,
                                 Spotify)</label>
-                            <input type="text" id="mediaLink"
+                            <input type="text" id="mediaLink" autocomplete="off"
                                 class="w-full border p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-sm"
                                 placeholder="https://...">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 mb-1">เนื้อเพลงต้นฉบับ</label>
-                            <textarea id="lyrics"
+                            <textarea id="lyrics" autocomplete="off"
                                 class="w-full border p-2.5 rounded-xl h-32 md:h-44 outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-sm"
                                 placeholder="วางเนื้อเพลงที่นี่..."></textarea>
                         </div>
 
-                        <!-- UI แสดงกระบวนการแปล (ซ่อนไว้ก่อน) -->
+                        <!-- UI แสดงกระบวนการแปล -->
                         <div id="process-tracker"
                             class="hidden bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-xs font-medium space-y-2">
                             <div id="step-1" class="process-step flex items-center gap-2"><i
                                     class="fa-solid fa-spinner fa-spin w-4 text-center"></i> กำลังเชื่อมต่อระบบ AI...
                             </div>
                             <div id="step-2" class="process-step flex items-center gap-2"><i
-                                    class="fa-solid fa-microchip w-4 text-center"></i> วิเคราะห์และแยกโครงสร้างภาษา...
+                                    class="fa-solid fa-microchip w-4 text-center"></i> วิเคราะห์และลดการใช้ Token...
                             </div>
                             <div id="step-3" class="process-step flex items-center gap-2"><i
                                     class="fa-solid fa-cloud-arrow-up w-4 text-center"></i> เรียบเรียงและบันทึกลงระบบ...
@@ -148,7 +181,7 @@
                     class="bg-white rounded-2xl shadow-sm border border-slate-200 p-3 md:p-4 flex flex-col md:flex-row gap-3 items-center justify-between">
                     <div class="flex items-center gap-2 border px-3 py-2 rounded-xl bg-slate-50 w-full md:w-64">
                         <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
-                        <input type="text" id="searchBar" oninput="renderSongs()"
+                        <input type="text" id="searchBar" autocomplete="off" oninput="renderSongs()"
                             class="bg-transparent outline-none text-sm w-full" placeholder="ค้นหาเพลง/ศิลปิน...">
                     </div>
                     <div class="flex flex-wrap justify-between w-full md:w-auto gap-2 items-center">
@@ -181,7 +214,7 @@
         </div>
     </main>
 
-    <!-- Footer v4.1 -->
+    <!-- Footer -->
     <footer class="bg-white border-t mt-12 py-8">
         <div
             class="container mx-auto px-4 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
@@ -202,12 +235,13 @@
         </div>
     </footer>
 
-    <!-- MODALS -->
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- 1. Settings Modal -->
+    <!-- MODALS -->
+    <!-- 1. Settings Modal (อัปเดตระบบอัปโหลดรูป & UID) -->
     <div id="settingsModal"
         class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-        <!-- Content from v4.0 ... -->
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
                 <h3 class="text-lg font-bold font-heading"><i class="fa-solid fa-user-gear text-indigo-500"></i> โปรไฟล์
@@ -216,16 +250,24 @@
                         class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-3">
-                <p class="text-[10px] text-slate-400 font-mono">UID: <span id="set-uid"></span></p>
+                <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-2 text-xs">
+                    <span class="font-bold text-slate-500">UID ของคุณ:</span>
+                    <span id="set-uid" class="font-mono text-slate-700 select-all"></span>
+                </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1">ชื่อผู้ใช้ (Display Name)</label>
                     <input type="text" id="set-name"
                         class="w-full p-2 border rounded-xl text-sm outline-none focus:border-indigo-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 mb-1">รูปโปรไฟล์ (URL)</label>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">รูปโปรไฟล์ (อัปโหลดไม่เกิน 1MB หรือใส่
+                        URL)</label>
+                    <input type="file" id="upload-photo" accept="image/*"
+                        class="w-full text-xs mb-2 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                        onchange="handleImageUpload(event)">
                     <input type="text" id="set-photo"
-                        class="w-full p-2 border rounded-xl text-sm outline-none focus:border-indigo-500">
+                        class="w-full p-2 border rounded-xl text-sm outline-none focus:border-indigo-500"
+                        placeholder="https://... หรืออัปโหลดไฟล์ด้านบน">
                 </div>
                 <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
                     <label class="block text-xs font-bold text-amber-800 mb-1"><i class="fa-solid fa-key"></i> Gemini
@@ -243,7 +285,7 @@
         </div>
     </div>
 
-    <!-- 2. Smart Editor Modal (แบบแยกส่วนแก้ไขง่าย) -->
+    <!-- 2. Smart Editor Modal -->
     <div id="editLyricsModal"
         class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 md:p-4">
         <div class="bg-white rounded-2xl w-full max-w-2xl p-4 md:p-6 shadow-xl flex flex-col h-[90vh] md:h-[80vh]">
@@ -257,9 +299,7 @@
             <input type="hidden" id="edit-song-id">
             <input type="hidden" id="edit-song-lang">
 
-            <div class="flex-grow overflow-y-auto pr-2 space-y-3" id="edit-dynamic-fields">
-                <!-- ช่องกรอกแบบแยกส่วนจะถูก Generate ขึ้นมาตรงนี้ -->
-            </div>
+            <div class="flex-grow overflow-y-auto pr-2 space-y-3" id="edit-dynamic-fields"></div>
 
             <div class="flex justify-end gap-2 mt-4 pt-4 border-t shrink-0">
                 <button onclick="closeModal('editLyricsModal')"
@@ -270,7 +310,7 @@
         </div>
     </div>
 
-    <!-- 3. Profile & Changelog Modal (ย่อไว้) -->
+    <!-- 3. Profile Viewer Modal -->
     <div id="profileViewerModal"
         class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-xl max-h-[80vh] flex flex-col">
@@ -282,16 +322,64 @@
                 <img id="view-avatar" src="" class="w-14 h-14 rounded-full object-cover">
                 <div>
                     <h4 id="view-username" class="font-bold"></h4>
-                    <p class="text-xs text-slate-400">UID: <span id="view-uid"></span></p>
+                    <p class="text-xs text-slate-400">UID: <span id="view-uid" class="font-mono text-slate-500"></span>
+                    </p>
                 </div>
             </div>
-            <div id="view-songs-list" class="space-y-2 overflow-y-auto flex-grow"></div>
+            <h5 class="font-bold text-sm mb-2 text-slate-500"><i class="fa-solid fa-folder-open"></i> ผลงานแปล (${'<span
+                    id="view-count">0</span>'})</h5>
+            <div id="view-songs-list" class="space-y-2 overflow-y-auto flex-grow pr-1"></div>
         </div>
     </div>
 
-    <!-- 4. Terms of Service Modal -->
+    <!-- 4. Changelog Modal (อัปเดตประวัติ 3.4 - 4.1) -->
+    <div id="changelogModal"
+        class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-lg font-bold font-heading text-slate-800">อัปเดตและประวัติการพัฒนา</h3>
+                <button onclick="closeModal('changelogModal')" class="text-slate-400 hover:text-slate-700"><i
+                        class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
+                <div class="border-l-4 border-indigo-500 pl-3">
+                    <p class="font-bold">v4.1 Build 07072026/3 (Hotfix)</p>
+                    <ul class="list-disc pl-4 text-xs text-slate-600 space-y-1 mt-1">
+                        <li>ปรับอัลกอริทึม AI ให้ประหยัด Token และบังคับโครงสร้าง Romaji ภาษาไทยสำหรับเพลงญี่ปุ่น</li>
+                        <li>แก้ปัญหา Auto-Paste ที่คีย์บอร์ดนำข้อความในคลิปบอร์ดมาวางในช่องค้นหาเอง</li>
+                        <li>เปลี่ยนระบบแจ้งเตือน (Alert) เป็นแบบ UI Toast เพื่อความสวยงาม</li>
+                        <li>ผู้ใช้สามารถอัปโหลดรูปโปรไฟล์จากเครื่องได้ (สูงสุด 1MB)</li>
+                        <li>แก้ไขบั๊กการแสดงผลประวัติในหน้าต่างส่องโปรไฟล์ และ UID ที่หายไป</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-slate-300 pl-3">
+                    <p class="font-bold text-slate-600">v4.1 Build 07072546/2</p>
+                    <p class="text-[11px] text-slate-500">ปรับ UI รองรับมือถือ (Mobile-First), เพิ่ม Live Process
+                        Tracker ตอนแปลเพลง, และเปลี่ยนหน้าแก้ไขเป็นแบบแยกส่วน (Smart Editor)</p>
+                </div>
+                <div class="border-l-4 border-slate-300 pl-3">
+                    <p class="font-bold text-slate-600">v4.0 Build 07072026</p>
+                    <p class="text-[11px] text-slate-500">เปิดตัวแบรนด์ hxvapp, แยกประเภทภาษาต้นฉบับ (ญี่ปุ่น, จีน,
+                        อังกฤษ), เพิ่มระบบค้นหาและตัวกรอง, รองรับการแสดงผลโปรไฟล์</p>
+                </div>
+                <div class="border-l-4 border-slate-300 pl-3">
+                    <p class="font-bold text-slate-600">v3.6 (BYOK Core)</p>
+                    <p class="text-[11px] text-slate-500">วางรากฐานระบบเข้ารหัสความปลอดภัย API Key รายบุคคล (Encryption)
+                        ผูกข้อมูลและสิทธิ์จัดการผ่าน UID</p>
+                </div>
+                <div class="border-l-4 border-slate-300 pl-3">
+                    <p class="font-bold text-slate-600">v3.4</p>
+                    <p class="text-[11px] text-slate-500">ระบบคลังเพลงสาธารณะ, การแนบลิงก์สื่อ YouTube/Spotify,
+                        และระบบติดดาวรายการโปรด</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Terms of Service Modal -->
     <div id="tosModal"
         class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <!-- เหมือนเดิม -->
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3 mb-4 shrink-0">
                 <h3 class="text-lg font-bold font-heading text-slate-800">Terms of Service</h3>
@@ -319,7 +407,7 @@
         import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import CryptoJS from 'crypto-js';
 
-        // วาง Firebase Config ของคุณตรงนี้
+        // วาง Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyALZR0R72ntrV0PjxOqFZAUo1m78G2yRwM",
             authDomain: "song-vocab-project.firebaseapp.com",
@@ -339,8 +427,28 @@
         let globalSongsData = [];
         let favoritesFilterActive = false;
 
+        // --- Custom Toast UI Notification ---
+        window.showToast = (message, type = 'success') => {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            const bgColor = type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
+                type === 'warning' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800';
+            const iconClass = type === 'error' ? 'fa-circle-xmark text-red-500' :
+                type === 'warning' ? 'fa-triangle-exclamation text-amber-500' : 'fa-circle-check text-emerald-500';
+
+            toast.className = `toast-enter pointer-events-auto border p-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium ${bgColor} max-w-sm`;
+            toast.innerHTML = `<i class="fa-solid ${iconClass} text-lg"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.replace('toast-enter', 'toast-exit');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        };
+
         // --- Auth System ---
-        window.login = async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { alert(e.message); } };
+        window.login = async () => { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { showToast(e.message, 'error'); } };
         window.logout = async () => { await signOut(auth); window.location.reload(); };
 
         onAuthStateChanged(auth, async (user) => {
@@ -362,7 +470,7 @@
                 onSnapshot(userDocRef, (docSnap) => {
                     userProfileData = docSnap.data();
                     document.getElementById('nav-avatar').src = userProfileData.photoURL || user.photoURL;
-                    renderSongs(); // Re-render เพื่ออัปเดตปุ่มหัวใจทันที
+                    renderSongs();
                 });
             } else {
                 loginBtn.classList.remove('hidden'); userMenu.classList.add('hidden');
@@ -381,7 +489,7 @@
             });
         }
 
-        // --- Render UI & Media Embed ---
+        // --- Render UI ---
         window.renderSongs = () => {
             const container = document.getElementById('songsDisplayContainer');
             const searchValue = document.getElementById('searchBar').value.toLowerCase();
@@ -405,22 +513,15 @@
                 const isFav = userProfileData && userProfileData.favorites && userProfileData.favorites.includes(s.id);
                 const favIconClass = isFav ? 'fa-solid fa-star text-amber-400' : 'fa-regular fa-star text-slate-300 hover:text-amber-300';
 
-                // ระบบฝังเครดิตสื่อ (YouTube/Spotify Iframe)
                 let mediaLayout = '';
                 if (s.mediaLink) {
                     const ytMatch = s.mediaLink.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
                     const spMatch = s.mediaLink.match(/spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]+)/i);
-
-                    if (ytMatch) {
-                        mediaLayout = `<div class="mt-3 aspect-video rounded-xl overflow-hidden border bg-black"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen></iframe></div>`;
-                    } else if (spMatch) {
-                        mediaLayout = `<div class="mt-3 h-20 rounded-xl overflow-hidden"><iframe src="https://open.spotify.com/embed/${spMatch[1]}/${spMatch[2]}?utm_source=generator" width="100%" height="100%" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen"></iframe></div>`;
-                    } else {
-                        mediaLayout = `<a href="${s.mediaLink}" target="_blank" class="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-2 mt-3 transition"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดสื่อต้นฉบับบนเว็บ</a>`;
-                    }
+                    if (ytMatch) mediaLayout = `<div class="mt-3 aspect-video rounded-xl overflow-hidden border bg-black"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+                    else if (spMatch) mediaLayout = `<div class="mt-3 h-20 rounded-xl overflow-hidden"><iframe src="https://open.spotify.com/embed/${spMatch[1]}/${spMatch[2]}?utm_source=generator" width="100%" height="100%" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen"></iframe></div>`;
+                    else mediaLayout = `<a href="${s.mediaLink}" target="_blank" class="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-2 mt-3 transition"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดสื่อต้นฉบับบนเว็บ</a>`;
                 }
 
-                // Layout เนื้อเพลง
                 let lyricsLayout = '';
                 try {
                     const parsed = JSON.parse(s.translatedOutput);
@@ -444,15 +545,10 @@
                             <h3 class="font-bold text-base md:text-lg text-slate-800 font-heading leading-tight truncate">${s.songTitle}</h3>
                             <p class="text-slate-500 text-xs md:text-sm font-medium truncate">${s.artist}</p>
                         </div>
-                        <button onclick="toggleFavorite('${s.id}')" class="text-xl p-1 transition shrink-0">
-                            <i class="${favIconClass}"></i>
-                        </button>
+                        <button onclick="toggleFavorite('${s.id}')" class="text-xl p-1 transition shrink-0"><i class="${favIconClass}"></i></button>
                     </div>
                     
-                    <div class="bg-slate-50 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100">
-                        ${lyricsLayout}
-                    </div>
-                    
+                    <div class="bg-slate-50 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100">${lyricsLayout}</div>
                     ${mediaLayout}
 
                     <div class="mt-4 pt-3 border-t flex items-center justify-between gap-2">
@@ -471,9 +567,8 @@
             });
         };
 
-        // --- Hotfix: Favorite System ด้วย ArrayUnion ---
         window.toggleFavorite = async (songId) => {
-            if (!currentUser) return alert("กรุณาเข้าสู่ระบบก่อนร่วมบันทึกรายการโปรด");
+            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบก่อนบันทึกรายการโปรด", "warning");
             const userRef = doc(db, "users", currentUser.uid);
             let currentFavs = (userProfileData && userProfileData.favorites) ? userProfileData.favorites : [];
 
@@ -485,7 +580,7 @@
         };
 
         window.toggleFavoritesFilter = () => {
-            if (!currentUser) return alert("กรุณาเข้าสู่ระบบก่อน");
+            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบเพื่อดูรายการโปรด", "warning");
             favoritesFilterActive = !favoritesFilterActive;
             const btn = document.getElementById('favFilterBtn');
             btn.classList.toggle('bg-amber-400', favoritesFilterActive);
@@ -493,23 +588,30 @@
             renderSongs();
         };
 
-        // --- Translation Engine (พร้อม Live Process Tracker) ---
+        // --- Translation Engine (Token Reduction & Romaji Logic) ---
         window.startTranslation = async () => {
-            if (!currentUser) return alert("กรุณาเข้าสู่ระบบก่อน");
+            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบก่อนใช้งานครับ", "warning");
 
             let apiKeyToUse = '';
             if (userProfileData && userProfileData.saveKey && userProfileData.encryptedKey) {
-                const bytes = CryptoJS.AES.decrypt(userProfileData.encryptedKey, ENCRYPTION_SECRET);
-                apiKeyToUse = bytes.toString(CryptoJS.enc.Utf8);
+                try {
+                    const bytes = CryptoJS.AES.decrypt(userProfileData.encryptedKey, ENCRYPTION_SECRET);
+                    apiKeyToUse = bytes.toString(CryptoJS.enc.Utf8);
+                } catch (e) {
+                    return showToast("คีย์ของคุณมีปัญหา กรุณาตั้งค่าใหม่ในระบบครับ", "error");
+                }
             }
-            if (!apiKeyToUse) { alert("โปรดตั้งค่า API Key ที่สัญลักษณ์ฟันเฟืองก่อน"); return openSettings(); }
+            if (!apiKeyToUse) {
+                showToast("ไม่พบ API Key โปรดตั้งค่าที่เมนูฟันเฟือง (1 คีย์ใช้ได้หลายบัญชี)", "warning");
+                return openSettings();
+            }
 
             const title = document.getElementById('songTitle').value;
             const artist = document.getElementById('artist').value;
             const mediaLink = document.getElementById('mediaLink').value;
             const lyricsText = document.getElementById('lyrics').value;
             const language = document.getElementById('sourceLang').value;
-            if (!title || !lyricsText) return alert("กรุณาระบุข้อมูลหัวเรื่องและเนื้อหาคำร้องให้ครบถ้วน");
+            if (!title || !lyricsText) return showToast("กรุณาระบุชื่อเพลงและเนื้อเพลงให้ครบถ้วน", "warning");
 
             const btn = document.getElementById('translateBtn');
             const tracker = document.getElementById('process-tracker');
@@ -519,18 +621,17 @@
             btn.disabled = true;
             tracker.classList.remove('hidden');
 
-            // รีเซ็ตสถานะ Tracker
             st1.className = 'process-step active flex items-center gap-2';
             st2.className = 'process-step flex items-center gap-2';
             st3.className = 'process-step flex items-center gap-2';
 
+            // Algotithm ลด Token และบังคับโครงสร้าง
             let schemaPrompt = '';
-            if (language === 'japanese') schemaPrompt = `Translate Japanese lyrics. Return JSON Array ONLY: [{"original":"", "romaji_en":"", "romaji_th":"", "thai":""}]`;
-            else if (language === 'chinese') schemaPrompt = `Translate Chinese lyrics. Return JSON Array ONLY: [{"original":"", "pinyin_en":"", "pinyin_th":"", "thai":""}]`;
-            else schemaPrompt = `Translate lyrics to Thai. Return JSON Array ONLY: [{"original":"", "thai":""}]`;
+            if (language === 'japanese') schemaPrompt = `Translate this Japanese song to Thai. Be highly concise. Do not add conversational text. Return ONLY a compact JSON Array in this exact format: [{"original":"", "romaji_en":"", "romaji_th":"", "thai":""}]. You MUST include the Thai pronunciation in the "romaji_th" field for every line.`;
+            else if (language === 'chinese') schemaPrompt = `Translate this Chinese song to Thai. Be highly concise. Do not add conversational text. Return ONLY a compact JSON Array: [{"original":"", "pinyin_en":"", "pinyin_th":"", "thai":""}].`;
+            else schemaPrompt = `Translate lyrics to Thai. Be highly concise. Return ONLY a compact JSON Array: [{"original":"", "thai":""}].`;
 
             try {
-                // Step 1 -> 2 (จำลองเวลาเล็กน้อยให้ผู้ใช้เห็น)
                 setTimeout(() => { st1.classList.remove('active'); st2.classList.add('active'); }, 1500);
 
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKeyToUse}`, {
@@ -538,9 +639,14 @@
                     body: JSON.stringify({ contents: [{ parts: [{ text: `${schemaPrompt}\nTitle: ${title}\nLyrics:\n${lyricsText}` }] }] })
                 });
                 const data = await res.json();
-                if (data.error) throw new Error(data.error.message);
 
-                // Step 2 -> 3
+                // แจ้งเตือนสวยงามกรณีคีย์ถูกแบนหรือผิด
+                if (data.error) {
+                    let errMsg = "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์ AI";
+                    if (data.error.message.includes("API key not valid") || data.error.message.includes("denied access")) errMsg = "API Key ถูกปฏิเสธ หรือไม่ถูกต้อง โปรดตรวจสอบใหม่ครับ";
+                    throw new Error(errMsg);
+                }
+
                 st2.classList.remove('active'); st3.classList.add('active');
 
                 let cleanJson = data.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
@@ -558,11 +664,11 @@
 
                 setTimeout(() => {
                     tracker.classList.add('hidden');
-                    alert("บันทึกผลลัพธ์ลงสารบบเรียบร้อยแล้ว!");
+                    showToast("แปลเพลงและบันทึกข้อมูลเรียบร้อยแล้ว!");
                 }, 800);
 
             } catch (err) {
-                alert("ล้มเหลว: " + err.message);
+                showToast(err.message, "error");
                 tracker.classList.add('hidden');
             } finally {
                 btn.innerHTML = 'เริ่มแปลด้วยคีย์ของฉัน';
@@ -570,7 +676,7 @@
             }
         };
 
-        // --- Smart Editor (แยกส่วนแก้ไข) ---
+        // --- Smart Editor Logic ---
         window.openEditor = async (songId) => {
             const songDoc = await getDoc(doc(db, "songs", songId));
             if (!songDoc.exists()) return;
@@ -586,40 +692,21 @@
             try {
                 const parsed = JSON.parse(data.translatedOutput);
                 parsed.forEach((line, idx) => {
-                    let fieldsHTML = `<div class="edit-block bg-slate-50 border p-3 md:p-4 rounded-xl space-y-2">
-                        <div class="flex items-center justify-between mb-2 border-b pb-1">
-                            <span class="text-[10px] font-bold text-slate-400">บรรทัดที่ ${idx + 1}</span>
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-500">ต้นฉบับ</label>
-                            <input type="text" class="edit-orig w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.original || ''}">
-                        </div>`;
+                    let fieldsHTML = `<div class="edit-block bg-slate-50 border p-3 md:p-4 rounded-xl space-y-2"><div class="flex items-center justify-between mb-2 border-b pb-1"><span class="text-[10px] font-bold text-slate-400">บรรทัดที่ ${idx + 1}</span></div><div><label class="block text-[11px] font-bold text-slate-500">ต้นฉบับ</label><input type="text" class="edit-orig w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.original || ''}"></div>`;
 
                     if (data.language === 'japanese') {
-                        fieldsHTML += `<div class="grid grid-cols-2 gap-2">
-                            <div><label class="block text-[11px] font-bold text-slate-500">Romaji (EN)</label><input type="text" class="edit-rom-en w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.romaji_en || ''}"></div>
-                            <div><label class="block text-[11px] font-bold text-slate-500">Romaji (TH)</label><input type="text" class="edit-rom-th w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.romaji_th || ''}"></div>
-                        </div>`;
+                        fieldsHTML += `<div class="grid grid-cols-2 gap-2"><div><label class="block text-[11px] font-bold text-slate-500">Romaji (EN)</label><input type="text" class="edit-rom-en w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.romaji_en || ''}"></div><div><label class="block text-[11px] font-bold text-slate-500">Romaji (TH)</label><input type="text" class="edit-rom-th w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.romaji_th || ''}"></div></div>`;
                     } else if (data.language === 'chinese') {
-                        fieldsHTML += `<div class="grid grid-cols-2 gap-2">
-                            <div><label class="block text-[11px] font-bold text-slate-500">Pinyin (EN)</label><input type="text" class="edit-pin-en w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.pinyin_en || ''}"></div>
-                            <div><label class="block text-[11px] font-bold text-slate-500">Pinyin (TH)</label><input type="text" class="edit-pin-th w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.pinyin_th || ''}"></div>
-                        </div>`;
+                        fieldsHTML += `<div class="grid grid-cols-2 gap-2"><div><label class="block text-[11px] font-bold text-slate-500">Pinyin (EN)</label><input type="text" class="edit-pin-en w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.pinyin_en || ''}"></div><div><label class="block text-[11px] font-bold text-slate-500">Pinyin (TH)</label><input type="text" class="edit-pin-th w-full border p-2 rounded-lg text-xs md:text-sm" value="${line.pinyin_th || ''}"></div></div>`;
                     }
 
-                    fieldsHTML += `<div>
-                            <label class="block text-[11px] font-bold text-indigo-500">คำแปลไทย</label>
-                            <input type="text" class="edit-thai w-full border border-indigo-200 p-2 rounded-lg text-xs md:text-sm font-medium" value="${line.thai || ''}">
-                        </div>
-                    </div>`;
-
+                    fieldsHTML += `<div><label class="block text-[11px] font-bold text-indigo-500">คำแปลไทย</label><input type="text" class="edit-thai w-full border border-indigo-200 p-2 rounded-lg text-xs md:text-sm font-medium" value="${line.thai || ''}"></div></div>`;
                     container.innerHTML += fieldsHTML;
                 });
             } catch (e) {
-                container.innerHTML = `<p class="text-red-500 text-sm">ไม่สามารถแยกส่วนข้อมูลได้ เนื่องจากโครงสร้างเดิมไม่ถูกต้อง</p>`;
+                container.innerHTML = `<p class="text-red-500 text-sm">ไม่สามารถดึงโครงสร้างมาแก้ไขได้ (รูปแบบเดิมผิดเพี้ยน)</p>`;
             }
-
-            document.getElementById('editLyricsModal').classList.remove('hidden');
+            openModal('editLyricsModal');
         };
 
         window.submitEditSong = async () => {
@@ -629,35 +716,108 @@
             const updatedArr = [];
 
             blocks.forEach(b => {
-                let obj = {
-                    original: b.querySelector('.edit-orig').value,
-                    thai: b.querySelector('.edit-thai').value
-                };
-                if (lang === 'japanese') {
-                    obj.romaji_en = b.querySelector('.edit-rom-en').value;
-                    obj.romaji_th = b.querySelector('.edit-rom-th').value;
-                } else if (lang === 'chinese') {
-                    obj.pinyin_en = b.querySelector('.edit-pin-en').value;
-                    obj.pinyin_th = b.querySelector('.edit-pin-th').value;
-                }
+                let obj = { original: b.querySelector('.edit-orig').value, thai: b.querySelector('.edit-thai').value };
+                if (lang === 'japanese') { obj.romaji_en = b.querySelector('.edit-rom-en').value; obj.romaji_th = b.querySelector('.edit-rom-th').value; }
+                else if (lang === 'chinese') { obj.pinyin_en = b.querySelector('.edit-pin-en').value; obj.pinyin_th = b.querySelector('.edit-pin-th').value; }
                 updatedArr.push(obj);
             });
 
             await updateDoc(doc(db, "songs", songId), { translatedOutput: JSON.stringify(updatedArr) });
-            alert("อัปเดตคำร้องเสร็จสิ้น!");
+            showToast("อัปเดตคำร้องเสร็จสิ้น!");
             closeModal('editLyricsModal');
         };
 
-        window.deleteSong = async (songId) => { if (confirm("ลบเพลงนี้ถาวร?")) await deleteDoc(doc(db, "songs", songId)); };
+        window.deleteSong = async (songId) => {
+            if (confirm("ยืนยันการลบเพลงนี้อย่างถาวร?")) {
+                await deleteDoc(doc(db, "songs", songId));
+                showToast("ลบเพลงเรียบร้อยแล้ว");
+            }
+        };
 
-        // --- BYOK Settings ---
-        window.openSettings = () => { /* ... existing setup ... */ document.getElementById('settingsModal').classList.remove('hidden'); };
-        window.saveProfile = async () => { /* ... save setup ... */ closeModal('settingsModal'); };
+        // --- BYOK Settings & Image Upload (Max 1MB) ---
+        window.handleImageUpload = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 1048576) {
+                document.getElementById('upload-photo').value = "";
+                return showToast("ขนาดรูปภาพใหญ่เกินไป (จำกัด 1MB) โปรดเลือกภาพใหม่ครับ", "error");
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => { document.getElementById('set-photo').value = e.target.result; };
+            reader.readAsDataURL(file);
+        };
 
-        // --- Modals Helper ---
+        window.openSettings = () => {
+            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบก่อนตั้งค่า", "warning");
+            document.getElementById('set-uid').textContent = currentUser.uid; // แจ้งโชว์ UID ชัดเจน
+            document.getElementById('set-name').value = userProfileData?.displayName || currentUser.displayName || '';
+            document.getElementById('set-photo').value = userProfileData?.photoURL || currentUser.photoURL || '';
+            document.getElementById('set-savekey').checked = userProfileData?.saveKey !== false;
+
+            if (userProfileData?.saveKey && userProfileData?.encryptedKey) {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(userProfileData.encryptedKey, ENCRYPTION_SECRET);
+                    document.getElementById('set-apikey').value = bytes.toString(CryptoJS.enc.Utf8);
+                } catch (e) { document.getElementById('set-apikey').value = ''; }
+            } else { document.getElementById('set-apikey').value = ''; }
+            openModal('settingsModal');
+        };
+
+        window.saveProfile = async () => {
+            const rawApiKey = document.getElementById('set-apikey').value;
+            const saveKey = document.getElementById('set-savekey').checked;
+            let encryptedKey = null;
+
+            if (saveKey && rawApiKey) {
+                encryptedKey = CryptoJS.AES.encrypt(rawApiKey, ENCRYPTION_SECRET).toString();
+            }
+
+            await setDoc(doc(db, "users", currentUser.uid), {
+                displayName: document.getElementById('set-name').value,
+                photoURL: document.getElementById('set-photo').value,
+                saveKey: saveKey,
+                encryptedKey: encryptedKey
+            }, { merge: true });
+
+            showToast("บันทึกข้อมูลโปรไฟล์และระบบคีย์เรียบร้อยแล้ว");
+            closeModal('settingsModal');
+        };
+
+        // --- View Public Profile (ดึงผลงานทั้งหมดมาแสดง) ---
+        window.viewPublicProfile = async (targetUid) => {
+            const userDoc = await getDoc(doc(db, "users", targetUid));
+            if (!userDoc.exists()) return;
+            const uData = userDoc.data();
+
+            document.getElementById('view-uid').textContent = targetUid;
+            document.getElementById('view-username').textContent = uData.displayName || 'Anonymous';
+            document.getElementById('view-avatar').src = uData.photoURL || 'https://via.placeholder.com/150';
+
+            const userSongs = globalSongsData.filter(s => s.translatedBy === targetUid);
+            document.getElementById('view-count').textContent = userSongs.length;
+
+            const listContainer = document.getElementById('view-songs-list');
+            listContainer.innerHTML = '';
+
+            if (userSongs.length === 0) {
+                listContainer.innerHTML = '<p class="text-xs text-slate-400 italic py-2">ผู้ใช้นี้ยังไม่มีผลงานแปลเพลงในขณะนี้</p>';
+            } else {
+                userSongs.forEach(s => {
+                    listContainer.innerHTML += `
+                    <div class="p-2.5 bg-slate-50 border rounded-xl text-xs flex justify-between items-center hover:bg-slate-100 transition">
+                        <div class="truncate pr-2">
+                            <p class="font-bold text-slate-800 truncate">${s.songTitle}</p>
+                            <p class="text-slate-500 text-[11px] truncate">${s.artist}</p>
+                        </div>
+                        <span class="text-[10px] uppercase font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-md shrink-0">${s.language}</span>
+                    </div>`;
+                });
+            }
+            openModal('profileViewerModal');
+        };
+
         window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
         window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
-        window.viewPublicProfile = async (uid) => { /* logic */ };
     </script>
 </body>
 
