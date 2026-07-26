@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song Translator v4.1.3 - hxvapp.com</title>
+    <title>Lyric Trans by hxvapp.com v4.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;700&display=swap"
@@ -73,15 +73,21 @@
 
 <body class="text-slate-800 flex flex-col min-h-screen">
 
+    <!-- Banned User Banner -->
+    <div id="banned-banner" class="hidden bg-red-600 text-white px-4 py-2.5 text-center text-xs md:text-sm font-bold shadow-inner flex items-center justify-center gap-2 z-50">
+        <i class="fa-solid fa-triangle-exclamation text-base md:text-lg animate-pulse"></i>
+        <span>บัญชีของคุณถูกระงับการใช้งานชั่วคราวเนื่องจาก: <span id="banned-reason-text" class="underline">...</span></span>
+    </div>
+
     <!-- Navbar -->
     <nav class="bg-white shadow-sm border-b sticky top-0 z-40">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center max-w-6xl">
             <div class="flex items-center gap-2">
                 <i class="fa-solid fa-square-sliders text-2xl text-indigo-600"></i>
                 <div class="leading-tight">
-                    <span class="block font-heading font-bold text-lg text-slate-800">hxvapp.com</span>
-                    <span class="block text-[10px] text-slate-500 font-medium">Song Translator v4.1 (Build
-                        07072026/3)</span>
+                    <span class="block font-heading font-bold text-lg text-slate-800">Song Translate App</span>
+                    <span class="block text-[10px] text-slate-500 font-medium">Song Translator by hxvapp.com v4.2 (Build
+                        26072026.1)</span>
                 </div>
             </div>
 
@@ -93,6 +99,13 @@
                     class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-bold transition shadow-sm">เข้าสู่ระบบ</button>
 
                 <div id="user-menu" class="hidden flex items-center gap-2 md:gap-3">
+                    <!-- Notification Bell -->
+                    <button onclick="openInbox()" class="relative text-slate-400 hover:text-indigo-600 transition" title="การแจ้งเตือน">
+                        <i class="fa-solid fa-bell text-lg md:text-xl"></i>
+                        <span id="inbox-badge" class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
+                    </button>
+                    <!-- Admin Badge -->
+                    <span id="nav-admin-badge" class="hidden bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1"><i class="fa-solid fa-user-shield"></i> Admin</span>
                     <button onclick="openSettings()" class="text-slate-400 hover:text-indigo-600 transition"
                         title="ตั้งค่าโปรไฟล์และ BYOK"><i class="fa-solid fa-sliders text-lg md:text-xl"></i></button>
                     <img id="nav-avatar" src=""
@@ -119,9 +132,9 @@
                             <label class="block text-xs font-bold text-slate-500 mb-1">ภาษาต้นฉบับ</label>
                             <select id="sourceLang"
                                 class="w-full border p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 text-sm">
-                                <option value="japanese">🇯🇵 ภาษาญี่ปุ่น (มี Romaji EN/TH)</option>
-                                <option value="chinese">🇨🇳 ภาษาจีน (มี Pinyin EN/TH)</option>
-                                <option value="english">🇬🇧 ภาษาอังกฤษ / ภาษาอื่นๆ</option>
+                                <option value="japanese">JP ภาษาญี่ปุ่น (มี Romaji EN/TH)</option>
+                                <option value="chinese">CN ภาษาจีน (มี Pinyin EN/TH)</option>
+                                <option value="english">EN ภาษาอังกฤษ / ไทย</option>
                             </select>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
@@ -219,7 +232,7 @@
         <div
             class="container mx-auto px-4 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
             <div>
-                <p class="font-bold text-slate-700 text-sm mb-1">Song Translator v4.1</p>
+                <p class="font-bold text-slate-700 text-sm mb-1">Song Translator v4.2</p>
                 <p>Dev By <span class="text-indigo-600 font-bold">Hydrogenxv</span></p>
             </div>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
@@ -253,6 +266,10 @@
                 <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-2 text-xs">
                     <span class="font-bold text-slate-500">UID ของคุณ:</span>
                     <span id="set-uid" class="font-mono text-slate-700 select-all"></span>
+                </div>
+                <div id="set-status-container" class="hidden bg-rose-50 p-2 rounded-lg border border-rose-100 flex items-center gap-2 text-xs animate-fade-in">
+                    <span class="font-bold text-rose-700">สถานะบัญชี:</span>
+                    <span id="set-status" class="font-bold text-rose-600">ผู้ดูแลระบบ (Admin)</span>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-500 mb-1">ชื่อผู้ใช้ (Display Name)</label>
@@ -321,13 +338,16 @@
             <div class="flex items-center gap-3 bg-slate-50 p-4 rounded-xl border mb-4">
                 <img id="view-avatar" src="" class="w-14 h-14 rounded-full object-cover">
                 <div>
-                    <h4 id="view-username" class="font-bold"></h4>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h4 id="view-username" class="font-bold"></h4>
+                        <span id="view-admin-badge" class="hidden bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1"><i class="fa-solid fa-user-shield"></i> Admin</span>
+                    </div>
                     <p class="text-xs text-slate-400">UID: <span id="view-uid" class="font-mono text-slate-500"></span>
                     </p>
                 </div>
             </div>
-            <h5 class="font-bold text-sm mb-2 text-slate-500"><i class="fa-solid fa-folder-open"></i> ผลงานแปล (${'<span
-                    id="view-count">0</span>'})</h5>
+            <h5 class="font-bold text-sm mb-2 text-slate-500"><i class="fa-solid fa-folder-open"></i> ผลงานแปล (<span
+                    id="view-count">0</span>)</h5>
             <div id="view-songs-list" class="space-y-2 overflow-y-auto flex-grow pr-1"></div>
         </div>
     </div>
@@ -343,7 +363,7 @@
             </div>
             <div class="space-y-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
                 <div class="border-l-4 border-indigo-500 pl-3">
-                    <p class="font-bold">v4.1 Build 07072026/3 (Hotfix)</p>
+                    <p class="font-bold">v4.1 Build 07072026/3 </p>
                     <ul class="list-disc pl-4 text-xs text-slate-600 space-y-1 mt-1">
                         <li>ปรับอัลกอริทึม AI ให้ประหยัด Token และบังคับโครงสร้าง Romaji ภาษาไทยสำหรับเพลงญี่ปุ่น</li>
                         <li>แก้ปัญหา Auto-Paste ที่คีย์บอร์ดนำข้อความในคลิปบอร์ดมาวางในช่องค้นหาเอง</li>
@@ -379,7 +399,6 @@
     <!-- 5. Terms of Service Modal -->
     <div id="tosModal"
         class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-        <!-- เหมือนเดิม -->
         <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3 mb-4 shrink-0">
                 <h3 class="text-lg font-bold font-heading text-slate-800">Terms of Service</h3>
@@ -387,15 +406,59 @@
                         class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="overflow-y-auto text-sm text-slate-600 space-y-3 pr-2">
-                <p><strong>1. บทนำ:</strong> เว็บไซต์ Song Translator ดำเนินการโดย hxvapp.com
+                <p><strong>1. บทนำ:</strong> เว็บไซต์ lyric.Hxvapp.com ดำเนินการโดย hxvapp.com
                     มีวัตถุประสงค์เพื่อเป็นเครื่องมือช่วยแปลเนื้อเพลงส่วนบุคคลผ่านระบบ AI</p>
                 <p><strong>2. ข้อมูลและการเข้ารหัส (BYOK):</strong> ระบบไม่ได้จัดเก็บ API Key ของท่านในรูปแบบข้อความปกติ
                     แต่จะทำการเข้ารหัส (Encryption) ผูกกับบัญชีผู้ใช้ เพื่อความปลอดภัยสูงสุด</p>
                 <p><strong>3. สิทธิ์การจัดการเนื้อหา:</strong>
                     ผู้ใช้งานเป็นเจ้าของและรับผิดชอบต่อเนื้อเพลงที่นำเข้าสู่ระบบ
-                    ระบบสงวนสิทธิ์ในการแก้ไขหรือลบเฉพาะผลงานที่ดำเนินการโดยบัญชีของท่านเองเท่านั้น</p>
+                    ระบบสงวนสิทธิ์ในการแก้ไขหรือลบโดยไม่แจ้งล่วงหน้า</p>
                 <p><strong>4. การติดต่อ:</strong> หากมีข้อสงสัยหรือพบปัญหาการใช้งาน สามารถติดต่อผู้พัฒนาได้ที่อีเมล
                     teerapat_kh@hxvapp.com หรือ Discord: selenite_rx</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Admin Action Modal -->
+    <div id="adminActionModal"
+        class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 id="admin-modal-title" class="text-base md:text-lg font-bold font-heading text-slate-800">จัดการข้อมูล (Admin Only)</h3>
+                <button onclick="closeModal('adminActionModal')" class="text-slate-400 hover:text-slate-700"><i
+                        class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4">
+                <input type="hidden" id="admin-target-id">
+                <input type="hidden" id="admin-action-type"> <!-- 'hide_song' or 'ban_user' -->
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1">ระบุเหตุผลการดำเนินการ (จะแสดงให้ผู้รับทราบ)</label>
+                    <textarea id="admin-reason" class="w-full border p-2.5 rounded-xl h-24 outline-none focus:ring-2 focus:ring-red-500 bg-slate-50 text-sm" placeholder="เช่น ละเมิดกฎการใช้งาน, เนื้อหาไม่เหมาะสม..."></textarea>
+                </div>
+                
+                <button onclick="submitAdminAction()" id="adminSubmitBtn"
+                    class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md">ยืนยันดำเนินการ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Inbox Modal -->
+    <div id="inboxModal"
+        class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center border-b pb-3 mb-4 shrink-0">
+                <h3 class="text-base md:text-lg font-bold font-heading text-slate-800"><i class="fa-solid fa-inbox text-indigo-500 mr-1"></i> กล่องข้อความแจ้งเตือน</h3>
+                <button onclick="closeModal('inboxModal')" class="text-slate-400 hover:text-slate-700"><i
+                        class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div id="inbox-list" class="space-y-3 overflow-y-auto flex-grow pr-1 py-1">
+                <!-- Notifications here -->
+            </div>
+            
+            <div class="mt-4 pt-3 border-t flex justify-end shrink-0">
+                <button onclick="markAllNotificationsRead()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-3 py-2 rounded-xl transition">ทำเครื่องหมายว่าอ่านแล้วทั้งหมด</button>
             </div>
         </div>
     </div>
@@ -404,17 +467,19 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, deleteDoc, updateDoc, arrayUnion, arrayRemove, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import CryptoJS from 'crypto-js';
+        import { renderLyricCard } from "./src/components/LyricCard.jsx";
+        import { cleanTranslationOutput } from "./src/helpers/romajiConverter.js";
 
         // วาง Firebase Config
         const firebaseConfig = {
-            apiKey: "AIzaSyALZR0R72ntrV0PjxOqFZAUo1m78G2yRwM",
-            authDomain: "song-vocab-project.firebaseapp.com",
-            projectId: "song-vocab-project",
-            storageBucket: "song-vocab-project.firebasestorage.app",
-            messagingSenderId: "527124701459",
-            appId: "1:527124701459:web:c7674d567bc61493b7bae6"
+            apiKey: "AIzaSyDSuPoqonsQ5DkaTE5jhwLXyOpCbGeRbAY",
+            authDomain: "song-project-vocab.firebaseapp.com",
+            projectId: "song-project-vocab",
+            storageBucket: "song-project-vocab.firebasestorage.app",
+            messagingSenderId: "387065464595",
+            appId: "1:387065464595:web:09a41f659aad5ad19e3ce6"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -426,6 +491,9 @@
         let userProfileData = null;
         let globalSongsData = [];
         let favoritesFilterActive = false;
+        let isAdmin = false;
+        let userNotifications = [];
+        let unsubscribeNotifications = null;
 
         // --- Custom Toast UI Notification ---
         window.showToast = (message, type = 'success') => {
@@ -470,11 +538,57 @@
                 onSnapshot(userDocRef, (docSnap) => {
                     userProfileData = docSnap.data();
                     document.getElementById('nav-avatar').src = userProfileData.photoURL || user.photoURL;
+                    
+                    // Check admin role (whitelist dev email and check isAdmin/role in Firestore)
+                    isAdmin = (user.email === 'teerapat_kh@hxvapp.com') || (userProfileData && (userProfileData.isAdmin === true || userProfileData.role === 'admin'));
+                    
+                    // Toggle admin badge in navbar
+                    const navAdminBadge = document.getElementById('nav-admin-badge');
+                    if (navAdminBadge) {
+                        if (isAdmin) navAdminBadge.classList.remove('hidden');
+                        else navAdminBadge.classList.add('hidden');
+                    }
+
+                    // Check banned status
+                    if (userProfileData && userProfileData.banned === true) {
+                        document.getElementById('banned-banner').classList.remove('hidden');
+                        document.getElementById('banned-reason-text').textContent = userProfileData.banReason || 'ละเมิดกฎการใช้งาน';
+                        translateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        translateBtn.disabled = true;
+                    } else {
+                        document.getElementById('banned-banner').classList.add('hidden');
+                        translateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        translateBtn.disabled = false;
+                    }
+
                     renderSongs();
+                });
+
+                // Start notifications listener
+                const qNotif = query(collection(db, "notifications"), where("userId", "==", user.uid), orderBy("createdAt", "desc"));
+                unsubscribeNotifications = onSnapshot(qNotif, (snapshot) => {
+                    const notifications = [];
+                    let unreadCount = 0;
+                    snapshot.forEach(docSnap => {
+                        const data = docSnap.data();
+                        notifications.push({ id: docSnap.id, ...data });
+                        if (!data.read) unreadCount++;
+                    });
+                    updateInboxUI(notifications, unreadCount);
+                }, (error) => {
+                    console.error("Notifications listener error:", error);
                 });
             } else {
                 loginBtn.classList.remove('hidden'); userMenu.classList.add('hidden');
                 translateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                isAdmin = false;
+                if (unsubscribeNotifications) {
+                    unsubscribeNotifications();
+                    unsubscribeNotifications = null;
+                }
+                document.getElementById('inbox-badge').classList.add('hidden');
+                document.getElementById('banned-banner').classList.add('hidden');
+                document.getElementById('nav-admin-badge').classList.add('hidden');
             }
             fetchSongsGlobal();
         });
@@ -502,6 +616,11 @@
             if (favoritesFilterActive && userProfileData && userProfileData.favorites) filtered = filtered.filter(s => userProfileData.favorites.includes(s.id));
             if (sortBy === 'asc') filtered.reverse();
 
+            // Filter out hidden songs for non-admins
+            if (!isAdmin) {
+                filtered = filtered.filter(s => s.hidden !== true);
+            }
+
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="col-span-full text-center py-12 bg-white rounded-2xl border border-dashed text-slate-400 text-sm">ไม่พบเพลงที่ตรงตามเงื่อนไข</div>`;
                 return;
@@ -509,61 +628,7 @@
 
             container.innerHTML = '';
             filtered.forEach(s => {
-                const isOwner = currentUser && s.translatedBy === currentUser.uid;
-                const isFav = userProfileData && userProfileData.favorites && userProfileData.favorites.includes(s.id);
-                const favIconClass = isFav ? 'fa-solid fa-star text-amber-400' : 'fa-regular fa-star text-slate-300 hover:text-amber-300';
-
-                let mediaLayout = '';
-                if (s.mediaLink) {
-                    const ytMatch = s.mediaLink.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
-                    const spMatch = s.mediaLink.match(/spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]+)/i);
-                    if (ytMatch) mediaLayout = `<div class="mt-3 aspect-video rounded-xl overflow-hidden border bg-black"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen></iframe></div>`;
-                    else if (spMatch) mediaLayout = `<div class="mt-3 h-20 rounded-xl overflow-hidden"><iframe src="https://open.spotify.com/embed/${spMatch[1]}/${spMatch[2]}?utm_source=generator" width="100%" height="100%" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen"></iframe></div>`;
-                    else mediaLayout = `<a href="${s.mediaLink}" target="_blank" class="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-2 rounded-xl text-xs font-bold flex justify-center items-center gap-2 mt-3 transition"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดสื่อต้นฉบับบนเว็บ</a>`;
-                }
-
-                let lyricsLayout = '';
-                try {
-                    const parsed = JSON.parse(s.translatedOutput);
-                    if (Array.isArray(parsed)) {
-                        parsed.forEach(line => {
-                            if (s.language === 'japanese') {
-                                lyricsLayout += `<div class="border-b border-slate-100 pb-2 mb-2 text-xs md:text-sm"><p class="text-slate-400 font-medium">ต้นฉบับ: ${line.original || ''}</p><p class="text-slate-500 font-mono">Romaji (EN): ${line.romaji_en || ''}</p><p class="text-indigo-400">Romaji (TH): ${line.romaji_th || ''}</p><p class="text-slate-800 font-bold mt-0.5">แปลไทย: ${line.thai || ''}</p></div>`;
-                            } else if (s.language === 'chinese') {
-                                lyricsLayout += `<div class="border-b border-slate-100 pb-2 mb-2 text-xs md:text-sm"><p class="text-slate-400 font-medium">ต้นฉบับ: ${line.original || ''}</p><p class="text-slate-500 font-mono">Pinyin (EN): ${line.pinyin_en || ''}</p><p class="text-indigo-400">Pinyin (TH): ${line.pinyin_th || ''}</p><p class="text-slate-800 font-bold mt-0.5">แปลไทย: ${line.thai || ''}</p></div>`;
-                            } else {
-                                lyricsLayout += `<div class="border-b border-slate-100 pb-2 mb-2 text-xs md:text-sm"><p class="text-slate-400">ต้นฉบับ: ${line.original || ''}</p><p class="text-slate-800 font-bold mt-0.5">แปลไทย: ${line.thai || ''}</p></div>`;
-                            }
-                        });
-                    }
-                } catch (e) { lyricsLayout = `<p class="text-xs text-slate-500 italic whitespace-pre-wrap">${s.translatedOutput}</p>`; }
-
-                container.innerHTML += `
-                <div class="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-slate-200 flex flex-col hover:shadow-md transition">
-                    <div class="flex justify-between items-start gap-2 mb-2">
-                        <div class="truncate">
-                            <h3 class="font-bold text-base md:text-lg text-slate-800 font-heading leading-tight truncate">${s.songTitle}</h3>
-                            <p class="text-slate-500 text-xs md:text-sm font-medium truncate">${s.artist}</p>
-                        </div>
-                        <button onclick="toggleFavorite('${s.id}')" class="text-xl p-1 transition shrink-0"><i class="${favIconClass}"></i></button>
-                    </div>
-                    
-                    <div class="bg-slate-50 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100">${lyricsLayout}</div>
-                    ${mediaLayout}
-
-                    <div class="mt-4 pt-3 border-t flex items-center justify-between gap-2">
-                        <div class="flex items-center gap-1.5 cursor-pointer shrink-0" onclick="viewPublicProfile('${s.translatedBy}')">
-                            <img src="${s.userPhoto || 'https://via.placeholder.com/150'}" class="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover border">
-                            <span class="text-[10px] md:text-xs font-bold text-slate-600 hover:text-indigo-600 truncate max-w-[80px] md:max-w-[120px]">${s.userName || 'Unknown'}</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 md:gap-2">
-                            ${isOwner ? `
-                                <button onclick="openEditor('${s.id}')" class="text-[10px] md:text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-signature"></i> แก้ไข</button>
-                                <button onclick="deleteSong('${s.id}')" class="text-[10px] md:text-xs font-bold text-red-500 hover:text-red-700 bg-red-50 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-trash-can"></i> ลบ</button>
-                            ` : ''}
-                        </div>
-                    </div>
-                </div>`;
+                container.innerHTML += renderLyricCard(s, currentUser, userProfileData, isAdmin);
             });
         };
 
@@ -627,8 +692,8 @@
 
             // Algotithm ลด Token และบังคับโครงสร้าง
             let schemaPrompt = '';
-            if (language === 'japanese') schemaPrompt = `Translate this Japanese song to Thai. Be highly concise. Do not add conversational text. Return ONLY a compact JSON Array in this exact format: [{"original":"", "romaji_en":"", "romaji_th":"", "thai":""}]. You MUST include the Thai pronunciation in the "romaji_th" field for every line.`;
-            else if (language === 'chinese') schemaPrompt = `Translate this Chinese song to Thai. Be highly concise. Do not add conversational text. Return ONLY a compact JSON Array: [{"original":"", "pinyin_en":"", "pinyin_th":"", "thai":""}].`;
+            if (language === 'japanese') schemaPrompt = `Translate this Japanese song to Thai. Be highly concise. Do not add conversational text. Return ONLY a compact JSON Array in this exact format: [{"original":"", "romaji_en":"", "romaji_th":"", "thai":""}]. You MUST include the Japanese pronunciation transliterated into Thai script/characters (e.g. "เมะ กะ ซาเมตาระ" for "目が覚めたら") in the "romaji_th" field. DO NOT use English/Latin characters or write Romanized Thai in "romaji_th".`;
+            else if (language === 'chinese') schemaPrompt = `Translate this Chinese song to Thai. Be highly concise. Do not add conversational text. Return ONLY a compact JSON Array in this exact format: [{"original":"", "pinyin_en":"", "pinyin_th":"", "thai":""}]. You MUST include the Chinese pronunciation transliterated into Thai script/characters (e.g. "หนี่ ห่าว" for "你好") in the "pinyin_th" field. DO NOT use English/Latin characters or write Romanized Thai in "pinyin_th".`;
             else schemaPrompt = `Translate lyrics to Thai. Be highly concise. Return ONLY a compact JSON Array: [{"original":"", "thai":""}].`;
 
             try {
@@ -649,7 +714,7 @@
 
                 st2.classList.remove('active'); st3.classList.add('active');
 
-                let cleanJson = data.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
+                let cleanJson = cleanTranslationOutput(data.candidates[0].content.parts[0].text);
 
                 await addDoc(collection(db, "songs"), {
                     songTitle: title, artist: artist, mediaLink: mediaLink, language: language,
@@ -681,7 +746,7 @@
             const songDoc = await getDoc(doc(db, "songs", songId));
             if (!songDoc.exists()) return;
             const data = songDoc.data();
-            if (data.translatedBy !== currentUser.uid) return;
+            if (data.translatedBy !== currentUser.uid && !isAdmin) return;
 
             document.getElementById('edit-song-id').value = songId;
             document.getElementById('edit-song-lang').value = data.language;
@@ -740,7 +805,7 @@
             if (!file) return;
             if (file.size > 1048576) {
                 document.getElementById('upload-photo').value = "";
-                return showToast("ขนาดรูปภาพใหญ่เกินไป (จำกัด 1MB) โปรดเลือกภาพใหม่ครับ", "error");
+                return showToast("ขนาดรูปภาพใหญ่เกินไป (จำกัด 1MB) โปรดเลือกภาพใหม่", "error");
             }
             const reader = new FileReader();
             reader.onload = (e) => { document.getElementById('set-photo').value = e.target.result; };
@@ -753,6 +818,13 @@
             document.getElementById('set-name').value = userProfileData?.displayName || currentUser.displayName || '';
             document.getElementById('set-photo').value = userProfileData?.photoURL || currentUser.photoURL || '';
             document.getElementById('set-savekey').checked = userProfileData?.saveKey !== false;
+
+            // Toggle account status block in settings modal
+            const statusContainer = document.getElementById('set-status-container');
+            if (statusContainer) {
+                if (isAdmin) statusContainer.classList.remove('hidden');
+                else statusContainer.classList.add('hidden');
+            }
 
             if (userProfileData?.saveKey && userProfileData?.encryptedKey) {
                 try {
@@ -793,6 +865,14 @@
             document.getElementById('view-username').textContent = uData.displayName || 'Anonymous';
             document.getElementById('view-avatar').src = uData.photoURL || 'https://via.placeholder.com/150';
 
+            // Toggle admin badge in profile viewer modal
+            const viewAdminBadge = document.getElementById('view-admin-badge');
+            if (viewAdminBadge) {
+                const targetIsAdmin = (uData.role === 'admin' || uData.isAdmin === true);
+                if (targetIsAdmin) viewAdminBadge.classList.remove('hidden');
+                else viewAdminBadge.classList.add('hidden');
+            }
+
             const userSongs = globalSongsData.filter(s => s.translatedBy === targetUid);
             document.getElementById('view-count').textContent = userSongs.length;
 
@@ -818,6 +898,138 @@
 
         window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
         window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+
+        // --- Notification Inbox System ---
+        function updateInboxUI(notifications, unreadCount) {
+            userNotifications = notifications;
+            const badge = document.getElementById('inbox-badge');
+            if (unreadCount > 0) {
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            const list = document.getElementById('inbox-list');
+            list.innerHTML = '';
+            if (notifications.length === 0) {
+                list.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-6">ไม่มีการแจ้งเตือนในขณะนี้</p>';
+                return;
+            }
+
+            notifications.forEach(n => {
+                const isUnread = !n.read;
+                const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleString('th-TH') : 'เมื่อสักครู่';
+                list.innerHTML += `
+                <div class="p-3.5 rounded-xl border text-xs relative ${isUnread ? 'bg-indigo-50/50 border-indigo-100 font-medium' : 'bg-slate-50 border-slate-100 text-slate-600'}">
+                    ${isUnread ? '<span class="absolute top-4 right-4 w-2 h-2 bg-indigo-600 rounded-full"></span>' : ''}
+                    <p class="pr-4 leading-relaxed">${n.message}</p>
+                    <p class="text-[10px] text-slate-400 mt-2 flex items-center gap-1"><i class="fa-regular fa-clock"></i> ${dateStr}</p>
+                </div>`;
+            });
+        }
+
+        window.openInbox = () => {
+            openModal('inboxModal');
+        };
+
+        window.markAllNotificationsRead = async () => {
+            if (!currentUser) return;
+            const unread = userNotifications.filter(n => !n.read);
+            if (unread.length === 0) return showToast("ไม่มีการแจ้งเตือนที่ยังไม่ได้อ่านครับ", "warning");
+            
+            try {
+                for (const n of unread) {
+                    await updateDoc(doc(db, "notifications", n.id), { read: true });
+                }
+                showToast("ทำเครื่องหมายว่าอ่านแล้วทั้งหมดแล้วครับ");
+            } catch (e) {
+                showToast(e.message, "error");
+            }
+        };
+
+        // --- Admin Controls Logic ---
+        window.toggleHideSong = async (songId, currentHiddenState) => {
+            if (!isAdmin) return showToast("คุณไม่มีสิทธิ์ดำเนินการนี้", "error");
+            if (!currentHiddenState) {
+                // Hiding requires a reason
+                openAdminAction(songId, 'hide_song', 'เพลง');
+            } else {
+                // Show again directly
+                if (confirm("ต้องการยกเลิกการซ่อนเพลงนี้ใช่หรือไม่?")) {
+                    await updateDoc(doc(db, "songs", songId), { hidden: false });
+                    showToast("แสดงเพลงเรียบร้อยแล้ว");
+                }
+            }
+        };
+
+        window.openAdminAction = (targetId, actionType, targetName = '') => {
+            document.getElementById('admin-target-id').value = targetId;
+            document.getElementById('admin-action-type').value = actionType;
+            document.getElementById('admin-reason').value = '';
+            
+            const title = document.getElementById('admin-modal-title');
+            if (actionType === 'hide_song') {
+                title.innerHTML = `<i class="fa-solid fa-eye-slash text-red-500 mr-1"></i> ซ่อนเพลง: ${targetName}`;
+            } else if (actionType === 'ban_user') {
+                title.innerHTML = `<i class="fa-solid fa-ban text-red-500 mr-1"></i> ระงับการใช้งาน: ${targetName}`;
+            }
+            
+            openModal('adminActionModal');
+        };
+
+        window.submitAdminAction = async () => {
+            const targetId = document.getElementById('admin-target-id').value;
+            const actionType = document.getElementById('admin-action-type').value;
+            const reason = document.getElementById('admin-reason').value.trim();
+            
+            if (!reason) return showToast("กรุณาระบุเหตุผลการดำเนินการด้วยครับ", "warning");
+            
+            const btn = document.getElementById('adminSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> กำลังดำเนินการ...';
+            
+            try {
+                if (actionType === 'hide_song') {
+                    const songDoc = await getDoc(doc(db, "songs", targetId));
+                    if (!songDoc.exists()) throw new Error("ไม่พบเพลงนี้ในระบบ");
+                    const sData = songDoc.data();
+                    
+                    // Mark as hidden
+                    await updateDoc(doc(db, "songs", targetId), { hidden: true });
+                    
+                    // Send notification to owner
+                    await addDoc(collection(db, "notifications"), {
+                        userId: sData.translatedBy,
+                        type: 'hide_song',
+                        message: `เพลง "${sData.songTitle}" ของคุณถูกซ่อนโดยผู้ดูแลระบบ เนื่องจาก: ${reason}`,
+                        createdAt: serverTimestamp(),
+                        read: false
+                    });
+                    
+                    showToast("ซ่อนเพลงและแจ้งเตือนผู้ใช้แล้ว");
+                } else if (actionType === 'ban_user') {
+                    // Update user doc with banned flag
+                    await updateDoc(doc(db, "users", targetId), { banned: true, banReason: reason });
+                    
+                    // Send notification to target user
+                    await addDoc(collection(db, "notifications"), {
+                        userId: targetId,
+                        type: 'ban',
+                        message: `บัญชีของคุณถูกระงับการใช้งานเนื่องจาก: ${reason}`,
+                        createdAt: serverTimestamp(),
+                        read: false
+                    });
+                    
+                    showToast("ระงับผู้ใช้งานและบันทึกข้อมูลเรียบร้อยแล้ว");
+                }
+                closeModal('adminActionModal');
+            } catch (e) {
+                showToast(e.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'ยืนยันดำเนินการ';
+            }
+        };
     </script>
 </body>
 
