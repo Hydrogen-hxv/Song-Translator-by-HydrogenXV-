@@ -262,7 +262,7 @@
     <div id="banned-banner"
         class="hidden bg-red-600 text-white px-4 py-2.5 text-center text-xs md:text-sm font-bold shadow-inner flex items-center justify-center gap-2 z-50">
         <i class="fa-solid fa-triangle-exclamation text-base md:text-lg animate-pulse"></i>
-        <span>บัญชีของคุณถูกระงับการใช้งานชั่วคราวเนื่องจาก: <span id="banned-reason-text"
+        <span><span data-i18n="bannedBanner.prefix">บัญชีของคุณถูกระงับการใช้งานชั่วคราวเนื่องจาก: </span><span id="banned-reason-text"
                 class="underline">...</span></span>
     </div>
 
@@ -273,29 +273,66 @@
             <div class="flex items-center gap-2">
                 <i class="fa-solid fa-square-sliders text-2xl text-indigo-600 dark:text-indigo-400" aria-hidden="true"></i>
                 <div class="leading-tight">
-                    <h1 class="font-heading font-bold text-lg text-slate-800 dark:text-slate-100 leading-tight m-0">Song Translate App</h1>
-                    <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium">Song Translator by hxvapp.com v4.2</span>
+                    <h1 class="font-heading font-bold text-lg text-slate-800 dark:text-slate-100 leading-tight m-0" data-i18n="appName">Song Translate App</h1>
+                    <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium" data-i18n="appSubtitle">Song Translator by hxvapp.com v4.2</span>
                 </div>
             </div>
 
-            <div class="flex gap-2 md:gap-4 items-center">
+            <div class="flex gap-2 md:gap-3 items-center">
+                <!-- Language Selector Dropdown -->
+                <div class="relative" id="langDropdownContainer">
+                    <button type="button" onclick="toggleLangDropdown()" id="langDropdownBtn"
+                        class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs md:text-sm font-semibold transition shadow-sm"
+                        data-i18n-title="nav.langSelect" data-i18n-aria="nav.langSelect" title="เปลี่ยนภาษา / Change Language" aria-label="เปลี่ยนภาษา">
+                        <span id="currentLangFlag">🇹🇭</span>
+                        <span id="currentLangLabel">TH</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition-transform duration-200" id="langDropdownArrow"></i>
+                    </button>
+                    <div id="langDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-36 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-50 overflow-hidden">
+                        <button type="button" onclick="changeLanguage('th')" data-lang="th"
+                            class="lang-option-btn w-full px-3 py-2 text-left text-xs md:text-sm flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                            <span>🇹🇭 ไทย</span>
+                            <span class="text-[10px] text-slate-400 font-mono">TH</span>
+                        </button>
+                        <button type="button" onclick="changeLanguage('en')" data-lang="en"
+                            class="lang-option-btn w-full px-3 py-2 text-left text-xs md:text-sm flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                            <span>🇬🇧 English</span>
+                            <span class="text-[10px] text-slate-400 font-mono">EN</span>
+                        </button>
+                        <button type="button" onclick="changeLanguage('ja')" data-lang="ja"
+                            class="lang-option-btn w-full px-3 py-2 text-left text-xs md:text-sm flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                            <span>🇯🇵 日本語</span>
+                            <span class="text-[10px] text-slate-400 font-mono">JP</span>
+                        </button>
+                        <button type="button" onclick="changeLanguage('zh')" data-lang="zh"
+                            class="lang-option-btn w-full px-3 py-2 text-left text-xs md:text-sm flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                            <span>🇨🇳 简体中文</span>
+                            <span class="text-[10px] text-slate-400 font-mono">CN</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Theme Toggle Button -->
                 <button type="button" onclick="toggleDarkMode()" id="themeToggleBtn"
                     class="p-2 rounded-xl text-slate-500 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                    data-i18n-title="nav.themeToggle" data-i18n-aria="nav.themeToggle"
                     title="สลับโหมดมืด / สว่าง" aria-label="สลับโหมดมืดหรือสว่าง">
                     <i id="themeToggleIcon" class="fa-solid fa-moon text-base md:text-lg"></i>
                 </button>
 
                 <button type="button" onclick="openModal('changelogModal')"
                     class="hidden md:block text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 text-sm font-medium"><i
-                        class="fa-solid fa-clock-rotate-left mr-1"></i> Changelog</button>
+                        class="fa-solid fa-clock-rotate-left mr-1"></i> <span data-i18n="nav.changelog">Changelog</span></button>
                 <button type="button" onclick="login()" id="loginBtn"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-bold transition shadow-sm">เข้าสู่ระบบ</button>
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-bold transition shadow-sm"
+                    data-i18n="nav.login">เข้าสู่ระบบ</button>
 
                 <div id="user-menu" class="hidden flex items-center gap-2 md:gap-3">
                     <!-- Notification Bell -->
                     <button type="button" onclick="openInbox()"
                         class="relative text-slate-400 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                        data-i18n-title="nav.notifications" data-i18n-aria="nav.notifications"
                         title="การแจ้งเตือน" aria-label="เปิดกล่องข้อความแจ้งเตือน">
                         <i class="fa-solid fa-bell text-lg md:text-xl"></i>
                         <span id="inbox-badge"
@@ -304,15 +341,18 @@
                     <!-- Admin Badge -->
                     <span id="nav-admin-badge"
                         class="hidden bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1"><i
-                            class="fa-solid fa-user-shield"></i> Admin</span>
+                            class="fa-solid fa-user-shield"></i> <span data-i18n="nav.admin">Admin</span></span>
                     <button type="button" onclick="openSettings()"
                         class="text-slate-400 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+                        data-i18n-title="nav.settings" data-i18n-aria="nav.settings"
                         title="ตั้งค่าโปรไฟล์และ BYOK" aria-label="เปิดหน้าต่างตั้งค่าโปรไฟล์"><i class="fa-solid fa-sliders text-lg md:text-xl"></i></button>
                     <img id="nav-avatar" src="" alt="รูปโปรไฟล์ของคุณ" loading="lazy" width="32" height="32"
                         class="w-8 h-8 rounded-full object-cover border-2 border-indigo-100 dark:border-indigo-900 cursor-pointer"
                         onclick="openSettings()">
                     <button type="button" onclick="logout()"
-                        class="text-slate-400 dark:text-slate-300 hover:text-red-500 transition" title="ออกจากระบบ" aria-label="ออกจากระบบ"><i
+                        class="text-slate-400 dark:text-slate-300 hover:text-red-500 transition"
+                        data-i18n-title="nav.logout" data-i18n-aria="nav.logout"
+                        title="ออกจากระบบ" aria-label="ออกจากระบบ"><i
                             class="fa-solid fa-arrow-right-from-bracket text-lg"></i></button>
                 </div>
             </div>
@@ -328,68 +368,69 @@
                     class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-5 md:p-6 lg:sticky lg:top-24">
                     <h2 id="translate-heading"
                         class="text-lg md:text-xl font-bold font-heading mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                        <i class="fa-solid fa-wand-magic-sparkles text-indigo-500" aria-hidden="true"></i> แปลเนื้อเพลงใหม่ด้วย AI
+                        <i class="fa-solid fa-wand-magic-sparkles text-indigo-500" aria-hidden="true"></i> <span data-i18n="translateForm.heading">แปลเนื้อเพลงใหม่ด้วย AI</span>
                     </h2>
 
                     <div class="space-y-4">
                         <div>
                             <label for="sourceLang"
-                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ภาษาต้นฉบับ</label>
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="translateForm.sourceLang">ภาษาต้นฉบับ</label>
                             <select id="sourceLang" aria-label="เลือกภาษาต้นฉบับ"
                                 class="w-full border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 text-sm">
-                                <option value="japanese">JP ภาษาญี่ปุ่น (มี Romaji EN/TH)</option>
-                                <option value="chinese">CN ภาษาจีน (มี Pinyin EN/TH)</option>
-                                <option value="english">EN ภาษาอังกฤษ / ไทย</option>
+                                <option value="japanese" data-i18n="translateForm.optJapanese">JP ภาษาญี่ปุ่น (มี Romaji EN/TH)</option>
+                                <option value="chinese" data-i18n="translateForm.optChinese">CN ภาษาจีน (มี Pinyin EN/TH)</option>
+                                <option value="english" data-i18n="translateForm.optEnglish">EN ภาษาอังกฤษ / อื่นๆ</option>
                             </select>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label for="songTitle"
-                                    class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ชื่อเพลง</label>
+                                    class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="translateForm.songTitle">ชื่อเพลง</label>
                                 <input type="text" id="songTitle" autocomplete="off" aria-label="กรอกชื่อเพลง"
                                     class="w-full border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm"
-                                    placeholder="Title">
+                                    data-i18n-placeholder="translateForm.songTitlePlaceholder" placeholder="Title">
                             </div>
                             <div>
                                 <label for="artist"
-                                    class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ศิลปิน</label>
+                                    class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="translateForm.artist">ศิลปิน</label>
                                 <input type="text" id="artist" autocomplete="off" aria-label="กรอกชื่อศิลปิน"
                                     class="w-full border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm"
-                                    placeholder="Artist">
+                                    data-i18n-placeholder="translateForm.artistPlaceholder" placeholder="Artist">
                             </div>
                         </div>
                         <div>
-                            <label for="mediaLink" class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ลิงก์สื่อ
+                            <label for="mediaLink" class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="translateForm.mediaLink">ลิงก์สื่อ
                                 (YouTube,
                                 Spotify)</label>
                             <input type="url" id="mediaLink" autocomplete="off" aria-label="ลิงก์สื่อ YouTube หรือ Spotify"
                                 class="w-full border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm"
-                                placeholder="https://...">
+                                data-i18n-placeholder="translateForm.mediaLinkPlaceholder" placeholder="https://...">
                         </div>
                         <div>
                             <label for="lyrics"
-                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">เนื้อเพลงต้นฉบับ</label>
+                                class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="translateForm.lyrics">เนื้อเพลงต้นฉบับ</label>
                             <textarea id="lyrics" autocomplete="off" aria-label="วางเนื้อเพลงต้นฉบับ"
                                 class="w-full border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl h-32 md:h-44 outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm"
-                                placeholder="วางเนื้อเพลงที่นี่..."></textarea>
+                                data-i18n-placeholder="translateForm.lyricsPlaceholder" placeholder="วางเนื้อเพลงที่นี่..."></textarea>
                         </div>
 
                         <!-- UI แสดงกระบวนการแปล -->
                         <div id="process-tracker"
                             class="hidden bg-indigo-50 dark:bg-slate-900/80 border border-indigo-100 dark:border-indigo-900/60 rounded-xl p-4 text-xs font-medium space-y-2">
                             <div id="step-1" class="process-step flex items-center gap-2"><i
-                                    class="fa-solid fa-spinner fa-spin w-4 text-center"></i> กำลังเชื่อมต่อระบบ AI...
+                                    class="fa-solid fa-spinner fa-spin w-4 text-center"></i> <span data-i18n="translateForm.step1">กำลังเชื่อมต่อระบบ AI...</span>
                             </div>
                             <div id="step-2" class="process-step flex items-center gap-2"><i
-                                    class="fa-solid fa-microchip w-4 text-center"></i> วิเคราะห์และลดการใช้ Token...
+                                    class="fa-solid fa-microchip w-4 text-center"></i> <span data-i18n="translateForm.step2">วิเคราะห์และลดการใช้ Token...</span>
                             </div>
                             <div id="step-3" class="process-step flex items-center gap-2"><i
-                                    class="fa-solid fa-cloud-arrow-up w-4 text-center"></i> เรียบเรียงและบันทึกลงระบบ...
+                                    class="fa-solid fa-cloud-arrow-up w-4 text-center"></i> <span data-i18n="translateForm.step3">เรียบเรียงและบันทึกลงระบบ...</span>
                             </div>
                         </div>
 
                         <button type="button" onclick="startTranslation()" id="translateBtn" aria-label="เริ่มแปลเพลงด้วย AI"
-                            class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold w-full shadow-md hover:bg-indigo-700 transition opacity-50 cursor-not-allowed">
+                            class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold w-full shadow-md hover:bg-indigo-700 transition opacity-50 cursor-not-allowed"
+                            data-i18n="translateForm.btnTranslate">
                             เริ่มแปลด้วยคีย์ของฉัน
                         </button>
                     </div>
@@ -398,7 +439,7 @@
 
             <!-- คอลัมน์ขวา: คลังเพลงสาธารณะ -->
             <section class="lg:col-span-2 space-y-4 md:space-y-6" aria-labelledby="library-heading">
-                <h2 id="library-heading" class="sr-only">คลังเพลงแปลสาธารณะ</h2>
+                <h2 id="library-heading" class="sr-only" data-i18n="library.heading">คลังเพลงแปลสาธารณะ</h2>
                 <!-- แถบค้นหาและตัวกรอง -->
                 <div role="search" aria-label="ค้นหาและกรองเพลง"
                     class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-3 md:p-4 flex flex-col md:flex-row gap-3 items-center justify-between">
@@ -407,26 +448,26 @@
                         <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm" aria-hidden="true"></i>
                         <input type="search" id="searchBar" autocomplete="off" oninput="renderSongs()" aria-label="ค้นหาชื่อเพลงหรือศิลปิน"
                             class="bg-transparent outline-none text-sm w-full text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
-                            placeholder="ค้นหาเพลง/ศิลปิน...">
+                            data-i18n-placeholder="library.searchPlaceholder" placeholder="ค้นหาเพลง/ศิลปิน...">
                     </div>
                     <div class="flex flex-wrap justify-between w-full md:w-auto gap-2 items-center">
                         <div class="flex gap-2 w-full md:w-auto">
                             <select id="filterLang" onchange="renderSongs()" aria-label="กรองภาษาของเนื้อเพลง"
                                 class="border border-slate-200 dark:border-slate-700 p-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-200 outline-none flex-grow md:flex-grow-0">
-                                <option value="all">ทุกภาษา</option>
-                                <option value="japanese">🇯🇵 ญี่ปุ่น</option>
-                                <option value="chinese">🇨🇳 จีน</option>
-                                <option value="english">🇬🇧 อื่นๆ</option>
+                                <option value="all" data-i18n="library.filterAll">ทุกภาษา</option>
+                                <option value="japanese" data-i18n="library.filterJapanese">🇯🇵 ญี่ปุ่น</option>
+                                <option value="chinese" data-i18n="library.filterChinese">🇨🇳 จีน</option>
+                                <option value="english" data-i18n="library.filterEnglish">🇬🇧 อื่นๆ</option>
                             </select>
                             <select id="sortBy" onchange="renderSongs()" aria-label="จัดเรียงลำดับเวลาเพลง"
                                 class="border border-slate-200 dark:border-slate-700 p-2 rounded-xl text-xs bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-200 outline-none flex-grow md:flex-grow-0">
-                                <option value="desc">ใหม่สุด</option>
-                                <option value="asc">เก่าสุด</option>
+                                <option value="desc" data-i18n="library.sortNewest">ใหม่สุด</option>
+                                <option value="asc" data-i18n="library.sortOldest">เก่าสุด</option>
                             </select>
                         </div>
                         <button type="button" onclick="toggleFavoritesFilter(event)" id="favFilterBtn" aria-label="สลับดูเฉพาะเพลงที่ชอบ"
                             class="w-full md:w-auto px-3 py-2 border border-slate-200 dark:border-slate-600 rounded-xl text-xs font-bold bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:border-amber-400 transition flex justify-center items-center">
-                            <i class="fa-solid fa-star mr-1" aria-hidden="true"></i> รายการโปรด
+                            <i class="fa-solid fa-star mr-1" aria-hidden="true"></i> <span data-i18n="library.favorites">รายการโปรด</span>
                         </button>
                     </div>
                 </div>
@@ -444,7 +485,7 @@
         <div
             class="container mx-auto px-4 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
             <div>
-                <p class="font-bold text-slate-700 dark:text-slate-200 text-sm mb-1">Song Translator v4.2</p>
+                <p class="font-bold text-slate-700 dark:text-slate-200 text-sm mb-1" data-i18n="appSubtitle">Song Translator v4.2</p>
                 <p>Dev By <span class="text-indigo-600 dark:text-indigo-400 font-bold">Hydrogenxv</span></p>
             </div>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
@@ -475,8 +516,7 @@
             class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-xl border border-slate-200 dark:border-slate-700">
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
                 <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100"><i
-                        class="fa-solid fa-user-gear text-indigo-500"></i> โปรไฟล์
-                    & ระบบคีย์</h3>
+                        class="fa-solid fa-user-gear text-indigo-500"></i> <span data-i18n="settingsModal.title">โปรไฟล์ & ระบบคีย์</span></h3>
                 <button type="button" onclick="closeModal('settingsModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
                         class="fa-solid fa-xmark text-lg"></i></button>
@@ -484,22 +524,22 @@
             <div class="space-y-3">
                 <div
                     class="bg-slate-50 dark:bg-slate-900/60 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-xs">
-                    <span class="font-bold text-slate-500 dark:text-slate-400">UID ของคุณ:</span>
+                    <span class="font-bold text-slate-500 dark:text-slate-400" data-i18n="settingsModal.yourUid">UID ของคุณ:</span>
                     <span id="set-uid" class="font-mono text-slate-700 dark:text-slate-200 select-all"></span>
                 </div>
                 <div id="set-status-container"
                     class="hidden bg-rose-50 dark:bg-rose-950/40 p-2 rounded-lg border border-rose-100 dark:border-rose-900/60 flex items-center gap-2 text-xs">
-                    <span class="font-bold text-rose-700 dark:text-rose-400">สถานะบัญชี:</span>
-                    <span id="set-status" class="font-bold text-rose-600 dark:text-rose-300">ผู้ดูแลระบบ (Admin)</span>
+                    <span class="font-bold text-rose-700 dark:text-rose-400" data-i18n="settingsModal.accountStatus">สถานะบัญชี:</span>
+                    <span id="set-status" class="font-bold text-rose-600 dark:text-rose-300" data-i18n="settingsModal.adminRole">ผู้ดูแลระบบ (Admin)</span>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ชื่อผู้ใช้ (Display
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="settingsModal.displayName">ชื่อผู้ใช้ (Display
                         Name)</label>
                     <input type="text" id="set-name"
                         class="w-full p-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm outline-none focus:border-indigo-500 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-100">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">รูปโปรไฟล์
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="settingsModal.profilePhoto">รูปโปรไฟล์
                         (อัปโหลดไม่เกิน 1MB หรือใส่
                         URL)</label>
                     <input type="file" id="upload-photo" accept="image/*"
@@ -507,22 +547,23 @@
                         onchange="handleImageUpload(event)">
                     <input type="text" id="set-photo"
                         class="w-full p-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm outline-none focus:border-indigo-500 bg-white dark:bg-slate-900/60 text-slate-800 dark:text-slate-100"
+                        data-i18n-placeholder="settingsModal.photoPlaceholder"
                         placeholder="https://... หรืออัปโหลดไฟล์ด้านบน">
                 </div>
                 <div
                     class="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-xl border border-amber-100 dark:border-amber-900/50">
                     <label class="block text-xs font-bold text-amber-800 dark:text-amber-300 mb-1"><i
-                            class="fa-solid fa-key"></i> Gemini
-                        API Key (BYOK)</label>
+                            class="fa-solid fa-key"></i> <span data-i18n="settingsModal.apiKey">Gemini API Key (BYOK)</span></label>
                     <input type="password" id="set-apikey" placeholder="AI Studio Key..."
                         class="w-full p-2 border border-amber-200 dark:border-amber-800 rounded-xl text-sm outline-none focus:border-amber-500 mb-2 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100">
                     <label class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 cursor-pointer">
                         <input type="checkbox" id="set-savekey" class="w-3 h-3 text-indigo-600 rounded">
-                        เข้ารหัสและบันทึกคีย์ไว้ใช้ในระบบ
+                        <span data-i18n="settingsModal.saveKey">เข้ารหัสและบันทึกคีย์ไว้ใช้ในระบบ</span>
                     </label>
                 </div>
                 <button type="button" onclick="saveProfile()"
-                    class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-bold rounded-xl transition">บันทึกการตั้งค่า</button>
+                    class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-bold rounded-xl transition"
+                    data-i18n="settingsModal.btnSave">บันทึกการตั้งค่า</button>
             </div>
         </div>
     </div>
@@ -535,7 +576,7 @@
             <div
                 class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 shrink-0">
                 <h3 class="text-base md:text-lg font-bold font-heading text-slate-800 dark:text-slate-100"><i
-                        class="fa-solid fa-pen-to-square text-indigo-500"></i> แก้ไขคำร้อง (Smart Editor)</h3>
+                        class="fa-solid fa-pen-to-square text-indigo-500"></i> <span data-i18n="editorModal.title">แก้ไขคำร้อง (Smart Editor)</span></h3>
                 <button type="button" onclick="closeModal('editLyricsModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
                         class="fa-solid fa-xmark text-lg"></i></button>
@@ -546,11 +587,22 @@
 
             <div class="flex-grow overflow-y-auto pr-2 space-y-3" id="edit-dynamic-fields"></div>
 
-            <div class="flex justify-end gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 shrink-0">
-                <button type="button" onclick="closeModal('editLyricsModal')"
-                    class="px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-xl text-xs md:text-sm font-bold text-slate-600 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600">ยกเลิก</button>
-                <button type="button" onclick="submitEditSong()"
-                    class="px-6 py-2 bg-indigo-600 text-white rounded-xl text-xs md:text-sm font-bold shadow-sm hover:bg-indigo-700">อัปเดตข้อมูล</button>
+            <div class="flex justify-between items-center gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 shrink-0 flex-wrap">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-xs font-bold text-slate-500 dark:text-slate-400 mr-1" data-i18n="export.title">ส่งออก:</span>
+                    <button type="button" onclick="triggerEditorExport('csv')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition"><i class="fa-solid fa-file-csv text-emerald-500 mr-1"></i>CSV</button>
+                    <button type="button" onclick="triggerEditorExport('pdf')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition"><i class="fa-solid fa-file-pdf text-red-500 mr-1"></i>PDF</button>
+                    <button type="button" onclick="triggerEditorExport('html')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition"><i class="fa-solid fa-file-code text-indigo-500 mr-1"></i>HTML</button>
+                    <button type="button" onclick="triggerEditorExport('json')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 transition"><i class="fa-solid fa-code text-amber-500 mr-1"></i>JSON</button>
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeModal('editLyricsModal')"
+                        class="px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-xl text-xs md:text-sm font-bold text-slate-600 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600"
+                        data-i18n="editorModal.btnCancel">ยกเลิก</button>
+                    <button type="button" onclick="submitEditSong()"
+                        class="px-6 py-2 bg-indigo-600 text-white rounded-xl text-xs md:text-sm font-bold shadow-sm hover:bg-indigo-700"
+                        data-i18n="editorModal.btnUpdate">อัปเดตข้อมูล</button>
+                </div>
             </div>
         </div>
     </div>
@@ -561,7 +613,7 @@
         <div
             class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-xl max-h-[80vh] flex flex-col border border-slate-200 dark:border-slate-700">
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
-                <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100">ข้อมูลผู้ร่วมแปล</h3>
+                <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100" data-i18n="profileModal.title">ข้อมูลผู้ร่วมแปล</h3>
                 <button type="button" onclick="closeModal('profileViewerModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
                         class="fa-solid fa-xmark"></i></button>
@@ -575,7 +627,7 @@
                         <h4 id="view-username" class="font-bold text-slate-800 dark:text-slate-100"></h4>
                         <span id="view-admin-badge"
                             class="hidden bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1"><i
-                                class="fa-solid fa-user-shield"></i> Admin</span>
+                                class="fa-solid fa-user-shield"></i> <span data-i18n="nav.admin">Admin</span></span>
                     </div>
                     <p class="text-xs text-slate-400 dark:text-slate-400">UID: <span id="view-uid"
                             class="font-mono text-slate-500 dark:text-slate-300"></span>
@@ -583,7 +635,7 @@
                 </div>
             </div>
             <h5 class="font-bold text-sm mb-2 text-slate-500 dark:text-slate-400"><i
-                    class="fa-solid fa-folder-open"></i> ผลงานแปล (<span id="view-count">0</span>)</h5>
+                    class="fa-solid fa-folder-open"></i> <span data-i18n="profileModal.works">ผลงานแปล</span> (<span id="view-count">0</span>)</h5>
             <div id="view-songs-list" class="space-y-2 overflow-y-auto flex-grow pr-1"></div>
         </div>
     </div>
@@ -594,7 +646,7 @@
         <div
             class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-xl border border-slate-200 dark:border-slate-700">
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
-                <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100">อัปเดตและประวัติการพัฒนา
+                <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100" data-i18n="changelogModal.title">อัปเดตและประวัติการพัฒนา
                 </h3>
                 <button type="button" onclick="closeModal('changelogModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
@@ -602,6 +654,13 @@
             </div>
             <div class="space-y-4 text-sm max-h-[60vh] overflow-y-auto pr-2">
                 <div class="border-l-4 border-indigo-500 pl-3">
+                    <p class="font-bold text-slate-800 dark:text-slate-100">v4.3 (Multi-Language EN/TH/JP/CN)</p>
+                    <ul class="list-disc pl-4 text-xs text-slate-600 dark:text-slate-300 space-y-1 mt-1">
+                        <li>เพิ่มระบบเปลี่ยนภาษาครอบคลุมทั้งแอปพลิเคชัน รองรับภาษาไทย (TH), อังกฤษ (EN), ญี่ปุ่น (JP) และจีน (CN)</li>
+                        <li>บันทึกการตั้งค่าภาษาอัตโนมัติในเครื่อง</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-slate-300 dark:border-slate-700 pl-3">
                     <p class="font-bold text-slate-800 dark:text-slate-100">v4.2 (Theme & Favorite Enhancements)</p>
                     <ul class="list-disc pl-4 text-xs text-slate-600 dark:text-slate-300 space-y-1 mt-1">
                         <li>เพิ่ม Dark Theme / Dark Mode รองรับการเปลี่ยนธีมมืด-สว่างพร้อมจำค่าในเครื่อง</li>
@@ -654,21 +713,16 @@
             class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-xl max-h-[80vh] flex flex-col border border-slate-200 dark:border-slate-700">
             <div
                 class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 shrink-0">
-                <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100">Terms of Service</h3>
+                <h3 class="text-lg font-bold font-heading text-slate-800 dark:text-slate-100" data-i18n="tosModal.title">Terms of Service</h3>
                 <button type="button" onclick="closeModal('tosModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
                         class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="overflow-y-auto text-sm text-slate-600 dark:text-slate-300 space-y-3 pr-2">
-                <p><strong>1. บทนำ:</strong> เว็บไซต์ lyric.Hxvapp.com ดำเนินการโดย hxvapp.com
-                    มีวัตถุประสงค์เพื่อเป็นเครื่องมือช่วยแปลเนื้อเพลงส่วนบุคคลผ่านระบบ AI</p>
-                <p><strong>2. ข้อมูลและการเข้ารหัส (BYOK):</strong> ระบบไม่ได้จัดเก็บ API Key ของท่านในรูปแบบข้อความปกติ
-                    แต่จะทำการเข้ารหัส (Encryption) ผูกกับบัญชีผู้ใช้ เพื่อความปลอดภัยสูงสุด</p>
-                <p><strong>3. สิทธิ์การจัดการเนื้อหา:</strong>
-                    ผู้ใช้งานเป็นเจ้าของและรับผิดชอบต่อเนื้อเพลงที่นำเข้าสู่ระบบ
-                    ระบบสงวนสิทธิ์ในการแก้ไขหรือลบโดยไม่แจ้งล่วงหน้า</p>
-                <p><strong>4. การติดต่อ:</strong> หากมีข้อสงสัยหรือพบปัญหาการใช้งาน สามารถติดต่อผู้พัฒนาได้ที่อีเมล
-                    teerapat_kh@hxvapp.com หรือ Discord: selenite_rx</p>
+                <p><strong data-i18n="tosModal.introTitle">1. บทนำ:</strong> <span data-i18n="tosModal.introText">เว็บไซต์ lyric.Hxvapp.com ดำเนินการโดย hxvapp.com มีวัตถุประสงค์เพื่อเป็นเครื่องมือช่วยแปลเนื้อเพลงส่วนบุคคลผ่านระบบ AI</span></p>
+                <p><strong data-i18n="tosModal.byokTitle">2. ข้อมูลและการเข้ารหัส (BYOK):</strong> <span data-i18n="tosModal.byokText">ระบบไม่ได้จัดเก็บ API Key ของท่านในรูปแบบข้อความปกติ แต่จะทำการเข้ารหัส (Encryption) ผูกกับบัญชีผู้ใช้ เพื่อความปลอดภัยสูงสุด</span></p>
+                <p><strong data-i18n="tosModal.contentTitle">3. สิทธิ์การจัดการเนื้อหา:</strong> <span data-i18n="tosModal.contentText">ผู้ใช้งานเป็นเจ้าของและรับผิดชอบต่อเนื้อเพลงที่นำเข้าสู่ระบบ ระบบสงวนสิทธิ์ในการแก้ไขหรือลบโดยไม่แจ้งล่วงหน้า</span></p>
+                <p><strong data-i18n="tosModal.contactTitle">4. การติดต่อ:</strong> <span data-i18n="tosModal.contactText">หากมีข้อสงสัยหรือพบปัญหาการใช้งาน สามารถติดต่อผู้พัฒนาได้ที่อีเมล teerapat_kh@hxvapp.com หรือ Discord: selenite_rx</span></p>
             </div>
         </div>
     </div>
@@ -680,7 +734,7 @@
             class="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md p-6 shadow-xl border border-slate-200 dark:border-slate-700">
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
                 <h3 id="admin-modal-title"
-                    class="text-base md:text-lg font-bold font-heading text-slate-800 dark:text-slate-100">
+                    class="text-base md:text-lg font-bold font-heading text-slate-800 dark:text-slate-100" data-i18n="adminModal.title">
                     จัดการข้อมูล (Admin Only)</h3>
                 <button type="button" onclick="closeModal('adminActionModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
@@ -692,15 +746,17 @@
 
                 <div>
                     <label
-                        class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">ระบุเหตุผลการดำเนินการ
+                        class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1" data-i18n="adminModal.reasonLabel">ระบุเหตุผลการดำเนินการ
                         (จะแสดงให้ผู้รับทราบ)</label>
                     <textarea id="admin-reason"
                         class="w-full border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl h-24 outline-none focus:ring-2 focus:ring-red-500 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm"
+                        data-i18n-placeholder="adminModal.reasonPlaceholder"
                         placeholder="เช่น ละเมิดกฎการใช้งาน, เนื้อหาไม่เหมาะสม..."></textarea>
                 </div>
 
                 <button type="button" onclick="submitAdminAction()" id="adminSubmitBtn"
-                    class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md">ยืนยันดำเนินการ</button>
+                    class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md"
+                    data-i18n="adminModal.btnConfirm">ยืนยันดำเนินการ</button>
             </div>
         </div>
     </div>
@@ -713,7 +769,7 @@
             <div
                 class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 shrink-0">
                 <h3 class="text-base md:text-lg font-bold font-heading text-slate-800 dark:text-slate-100"><i
-                        class="fa-solid fa-inbox text-indigo-500 mr-1"></i> กล่องข้อความแจ้งเตือน</h3>
+                        class="fa-solid fa-inbox text-indigo-500 mr-1"></i> <span data-i18n="inboxModal.title">กล่องข้อความแจ้งเตือน</span></h3>
                 <button type="button" onclick="closeModal('inboxModal')"
                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"><i
                         class="fa-solid fa-xmark text-lg"></i></button>
@@ -725,7 +781,8 @@
 
             <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end shrink-0">
                 <button type="button" onclick="markAllNotificationsRead()"
-                    class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-2 rounded-xl transition">ทำเครื่องหมายว่าอ่านแล้วทั้งหมด</button>
+                    class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-2 rounded-xl transition"
+                    data-i18n="inboxModal.markAllRead">ทำเครื่องหมายว่าอ่านแล้วทั้งหมด</button>
             </div>
         </div>
     </div>
@@ -738,6 +795,8 @@
         import CryptoJS from 'crypto-js';
         import { renderLyricCard } from "./src/components/LyricCard.jsx";
         import { cleanTranslationOutput } from "./src/helpers/romajiConverter.js";
+        import { t, setLanguage, getLanguage, applyTranslations, SUPPORTED_LANGUAGES } from "./src/helpers/i18n.js";
+        import { exportSongCSV, exportSongJSON, exportSongHTML, exportSongPDF } from "./src/helpers/exportHelper.js";
 
         // วาง Firebase Config
         const firebaseConfig = {
@@ -761,6 +820,98 @@
         let isAdmin = false;
         let userNotifications = [];
         let unsubscribeNotifications = null;
+
+        // --- Language Controller ---
+        window.toggleLangDropdown = () => {
+            const menu = document.getElementById('langDropdownMenu');
+            const arrow = document.getElementById('langDropdownArrow');
+            if (menu) {
+                const isHidden = menu.classList.toggle('hidden');
+                if (arrow) arrow.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        };
+
+        window.closeLangDropdown = () => {
+            const menu = document.getElementById('langDropdownMenu');
+            const arrow = document.getElementById('langDropdownArrow');
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            }
+        };
+
+        window.changeLanguage = (langCode) => {
+            setLanguage(langCode, () => {
+                renderSongs();
+            });
+            closeLangDropdown();
+        };
+
+        // --- Export Controller ---
+        window.toggleExportMenu = (event, songId) => {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const targetMenu = document.getElementById(`export-menu-${songId}`);
+            document.querySelectorAll('[id^="export-menu-"]').forEach(menu => {
+                if (menu !== targetMenu) menu.classList.add('hidden');
+            });
+            if (targetMenu) {
+                targetMenu.classList.toggle('hidden');
+            }
+        };
+
+        window.closeAllExportMenus = () => {
+            document.querySelectorAll('[id^="export-menu-"]').forEach(menu => {
+                menu.classList.add('hidden');
+            });
+        };
+
+        window.triggerExport = (event, songId, format) => {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            closeAllExportMenus();
+            const song = globalSongsData.find(s => s.id === songId);
+            if (!song || !song.translatedOutput) {
+                return showToast(t('toasts.exportEmpty'), 'warning');
+            }
+
+            try {
+                if (format === 'csv') exportSongCSV(song);
+                else if (format === 'pdf') exportSongPDF(song);
+                else if (format === 'html') exportSongHTML(song);
+                else if (format === 'json') exportSongJSON(song);
+
+                if (format !== 'pdf') {
+                    showToast(t('toasts.exportSuccess'));
+                }
+            } catch (err) {
+                console.error("Export error:", err);
+                showToast(err.message || 'Export error', 'error');
+            }
+        };
+
+        window.triggerEditorExport = (format) => {
+            const songId = document.getElementById('edit-song-id').value;
+            if (!songId) return;
+            triggerExport(null, songId, format);
+        };
+
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('langDropdownContainer');
+            if (container && !container.contains(e.target)) {
+                closeLangDropdown();
+            }
+            if (!e.target.closest('.export-dropdown-container')) {
+                closeAllExportMenus();
+            }
+        });
+
+        // Initialize translations immediately
+        applyTranslations();
 
         // --- Dark Mode Controller ---
         window.toggleDarkMode = () => {
@@ -846,7 +997,7 @@
                     // Check banned status
                     if (userProfileData && userProfileData.banned === true) {
                         document.getElementById('banned-banner').classList.remove('hidden');
-                        document.getElementById('banned-reason-text').textContent = userProfileData.banReason || 'ละเมิดกฎการใช้งาน';
+                        document.getElementById('banned-reason-text').textContent = userProfileData.banReason || t('bannedBanner.defaultReason');
                         translateBtn.classList.add('opacity-50', 'cursor-not-allowed');
                         translateBtn.disabled = true;
                     } else {
@@ -943,7 +1094,7 @@
             }
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-12 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 text-sm">ไม่พบเพลงที่ตรงตามเงื่อนไข</div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-12 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 text-sm">${t('library.empty')}</div>`;
                 return;
             }
 
@@ -959,7 +1110,7 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
-            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบก่อนบันทึกรายการโปรด", "warning");
+            if (!currentUser) return showToast(t('toasts.loginFavRequired'), "warning");
 
             const userRef = doc(db, "users", currentUser.uid);
             let currentFavs = (userProfileData && userProfileData.favorites) ? [...userProfileData.favorites] : [];
@@ -988,14 +1139,14 @@
             try {
                 if (isFav) {
                     await updateDoc(userRef, { favorites: arrayRemove(songId) });
-                    showToast("นำออกจากรายการโปรดแล้ว", "info");
+                    showToast(t('toasts.favRemoved'), "info");
                 } else {
                     await updateDoc(userRef, { favorites: arrayUnion(songId) });
-                    showToast("บันทึกเป็นรายการโปรดแล้ว", "success");
+                    showToast(t('toasts.favAdded'), "success");
                 }
             } catch (err) {
                 console.error("Favorite toggle error:", err);
-                showToast("เกิดข้อผิดพลาดในการบันทึกรายการโปรด", "error");
+                showToast(t('toasts.favError'), "error");
             }
         };
 
@@ -1005,7 +1156,7 @@
                 event.preventDefault();
                 event.stopPropagation();
             }
-            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบเพื่อดูรายการโปรด", "warning");
+            if (!currentUser) return showToast(t('toasts.loginViewFavRequired'), "warning");
             favoritesFilterActive = !favoritesFilterActive;
             const btn = document.getElementById('favFilterBtn');
             if (btn) {
@@ -1022,7 +1173,7 @@
 
         // --- Translation Engine (Token Reduction & Romaji Logic) ---
         window.startTranslation = async () => {
-            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบก่อนใช้งานครับ", "warning");
+            if (!currentUser) return showToast(t('toasts.loginRequired'), "warning");
 
             let apiKeyToUse = '';
             if (userProfileData && userProfileData.saveKey && userProfileData.encryptedKey) {
@@ -1030,11 +1181,11 @@
                     const bytes = CryptoJS.AES.decrypt(userProfileData.encryptedKey, ENCRYPTION_SECRET);
                     apiKeyToUse = bytes.toString(CryptoJS.enc.Utf8);
                 } catch (e) {
-                    return showToast("คีย์ของคุณมีปัญหา กรุณาตั้งค่าใหม่ในระบบครับ", "error");
+                    return showToast(t('toasts.keyIssue'), "error");
                 }
             }
             if (!apiKeyToUse) {
-                showToast("ไม่พบ API Key โปรดตั้งค่าที่เมนูฟันเฟือง (1 คีย์ใช้ได้หลายบัญชี)", "warning");
+                showToast(t('toasts.keyMissing'), "warning");
                 return openSettings();
             }
 
@@ -1043,13 +1194,13 @@
             const mediaLink = document.getElementById('mediaLink').value.trim();
             const lyricsText = document.getElementById('lyrics').value.trim();
             const language = document.getElementById('sourceLang').value;
-            if (!title || !lyricsText) return showToast("กรุณาระบุชื่อเพลงและเนื้อเพลงให้ครบถ้วน", "warning");
+            if (!title || !lyricsText) return showToast(t('toasts.fillRequired'), "warning");
 
             const btn = document.getElementById('translateBtn');
             const tracker = document.getElementById('process-tracker');
             const st1 = document.getElementById('step-1'), st2 = document.getElementById('step-2'), st3 = document.getElementById('step-3');
 
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> กำลังประมวลผล...';
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> ${t('translateForm.btnTranslating')}`;
             btn.disabled = true;
             tracker.classList.remove('hidden');
 
@@ -1074,8 +1225,8 @@
 
                 // แจ้งเตือนสวยงามกรณีคีย์ถูกแบนหรือผิด
                 if (data.error) {
-                    let errMsg = "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์ AI";
-                    if (data.error.message.includes("API key not valid") || data.error.message.includes("denied access")) errMsg = "API Key ถูกปฏิเสธ หรือไม่ถูกต้อง โปรดตรวจสอบใหม่ครับ";
+                    let errMsg = t('toasts.aiError');
+                    if (data.error.message.includes("API key not valid") || data.error.message.includes("denied access")) errMsg = t('toasts.keyInvalid');
                     throw new Error(errMsg);
                 }
 
@@ -1096,14 +1247,14 @@
 
                 setTimeout(() => {
                     tracker.classList.add('hidden');
-                    showToast("แปลเพลงและบันทึกข้อมูลเรียบร้อยแล้ว!");
+                    showToast(t('toasts.translateSuccess'));
                 }, 800);
 
             } catch (err) {
                 tracker.classList.add('hidden');
                 showToast(err.message, "error");
             } finally {
-                btn.innerHTML = 'เริ่มแปลด้วยคีย์ของฉัน';
+                btn.innerHTML = t('translateForm.btnTranslate');
                 btn.disabled = false;
             }
         };
@@ -1124,7 +1275,7 @@
             try {
                 const parsed = JSON.parse(data.translatedOutput);
                 parsed.forEach((line, idx) => {
-                    let fieldsHTML = `<div class="edit-block bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 p-3 md:p-4 rounded-xl space-y-2"><div class="flex items-center justify-between mb-2 border-b border-slate-200 dark:border-slate-700 pb-1"><span class="text-[10px] font-bold text-slate-400 dark:text-slate-400">บรรทัดที่ ${idx + 1}</span></div><div><label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400">ต้นฉบับ</label><input type="text" class="edit-orig w-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm" value="${line.original || ''}"></div>`;
+                    let fieldsHTML = `<div class="edit-block bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 p-3 md:p-4 rounded-xl space-y-2"><div class="flex items-center justify-between mb-2 border-b border-slate-200 dark:border-slate-700 pb-1"><span class="text-[10px] font-bold text-slate-400 dark:text-slate-400">${t('editorModal.line')} ${idx + 1}${t('editorModal.lineSuffix')}</span></div><div><label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400">${t('editorModal.origLabel')}</label><input type="text" class="edit-orig w-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm" value="${line.original || ''}"></div>`;
 
                     if (data.language === 'japanese') {
                         fieldsHTML += `<div class="grid grid-cols-2 gap-2"><div><label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400">Romaji (EN)</label><input type="text" class="edit-rom-en w-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm" value="${line.romaji_en || ''}"></div><div><label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400">Romaji (TH)</label><input type="text" class="edit-rom-th w-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm" value="${line.romaji_th || ''}"></div></div>`;
@@ -1132,11 +1283,11 @@
                         fieldsHTML += `<div class="grid grid-cols-2 gap-2"><div><label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400">Pinyin (EN)</label><input type="text" class="edit-pin-en w-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm" value="${line.pinyin_en || ''}"></div><div><label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400">Pinyin (TH)</label><input type="text" class="edit-pin-th w-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm" value="${line.pinyin_th || ''}"></div></div>`;
                     }
 
-                    fieldsHTML += `<div><label class="block text-[11px] font-bold text-indigo-500 dark:text-indigo-400">คำแปลไทย</label><input type="text" class="edit-thai w-full border border-indigo-200 dark:border-indigo-900/80 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm font-medium" value="${line.thai || ''}"></div></div>`;
+                    fieldsHTML += `<div><label class="block text-[11px] font-bold text-indigo-500 dark:text-indigo-400">${t('editorModal.thaiLabel')}</label><input type="text" class="edit-thai w-full border border-indigo-200 dark:border-indigo-900/80 bg-white dark:bg-slate-900/70 text-slate-800 dark:text-slate-100 p-2 rounded-lg text-xs md:text-sm font-medium" value="${line.thai || ''}"></div></div>`;
                     container.innerHTML += fieldsHTML;
                 });
             } catch (e) {
-                container.innerHTML = `<p class="text-red-500 text-sm">ไม่สามารถดึงโครงสร้างมาแก้ไขได้ (รูปแบบเดิมผิดเพี้ยน)</p>`;
+                container.innerHTML = `<p class="text-red-500 text-sm">${t('editorModal.corrupted')}</p>`;
             }
             openModal('editLyricsModal');
         };
@@ -1155,14 +1306,14 @@
             });
 
             await updateDoc(doc(db, "songs", songId), { translatedOutput: JSON.stringify(updatedArr) });
-            showToast("อัปเดตคำร้องเสร็จสิ้น!");
+            showToast(t('toasts.updateSuccess'));
             closeModal('editLyricsModal');
         };
 
         window.deleteSong = async (songId) => {
-            if (confirm("ยืนยันการลบเพลงนี้อย่างถาวร?")) {
+            if (confirm(t('toasts.deleteConfirm'))) {
                 await deleteDoc(doc(db, "songs", songId));
-                showToast("ลบเพลงเรียบร้อยแล้ว");
+                showToast(t('toasts.deleteSuccess'));
             }
         };
 
@@ -1172,7 +1323,7 @@
             if (!file) return;
             if (file.size > 1048576) {
                 document.getElementById('upload-photo').value = "";
-                return showToast("ขนาดรูปภาพใหญ่เกินไป (จำกัด 1MB) โปรดเลือกภาพใหม่", "error");
+                return showToast(t('toasts.fileTooLarge'), "error");
             }
             const reader = new FileReader();
             reader.onload = (e) => { document.getElementById('set-photo').value = e.target.result; };
@@ -1180,7 +1331,7 @@
         };
 
         window.openSettings = () => {
-            if (!currentUser) return showToast("กรุณาเข้าสู่ระบบก่อนตั้งค่า", "warning");
+            if (!currentUser) return showToast(t('toasts.loginSettingsRequired'), "warning");
             document.getElementById('set-uid').textContent = currentUser.uid;
             document.getElementById('set-name').value = userProfileData?.displayName || currentUser.displayName || '';
             document.getElementById('set-photo').value = userProfileData?.photoURL || currentUser.photoURL || '';
@@ -1218,7 +1369,7 @@
                 encryptedKey: encryptedKey
             }, { merge: true });
 
-            showToast("บันทึกข้อมูลโปรไฟล์และระบบคีย์เรียบร้อยแล้ว");
+            showToast(t('toasts.saveProfileSuccess'));
             closeModal('settingsModal');
         };
 
@@ -1247,7 +1398,7 @@
             listContainer.innerHTML = '';
 
             if (userSongs.length === 0) {
-                listContainer.innerHTML = '<p class="text-xs text-slate-400 italic py-2">ผู้ใช้นี้ยังไม่มีผลงานแปลเพลงในขณะนี้</p>';
+                listContainer.innerHTML = `<p class="text-xs text-slate-400 italic py-2">${t('profileModal.noWorks')}</p>`;
             } else {
                 userSongs.forEach(s => {
                     listContainer.innerHTML += `
@@ -1285,13 +1436,15 @@
             const list = document.getElementById('inbox-list');
             list.innerHTML = '';
             if (notifications.length === 0) {
-                list.innerHTML = '<p class="text-xs text-slate-400 italic text-center py-6">ไม่มีการแจ้งเตือนในขณะนี้</p>';
+                list.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-6">${t('inboxModal.empty')}</p>`;
                 return;
             }
 
+            const currentLocale = getLanguage() === 'th' ? 'th-TH' : getLanguage() === 'ja' ? 'ja-JP' : getLanguage() === 'zh' ? 'zh-CN' : 'en-US';
+
             notifications.forEach(n => {
                 const isUnread = !n.read;
-                const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleString('th-TH') : 'เมื่อสักครู่';
+                const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleString(currentLocale) : t('inboxModal.justNow');
                 list.innerHTML += `
                 <div class="p-3.5 rounded-xl border text-xs relative ${isUnread ? 'bg-indigo-50/50 dark:bg-indigo-950/40 border-indigo-100 dark:border-indigo-900/60 font-medium text-slate-800 dark:text-slate-200' : 'bg-slate-50 dark:bg-slate-900/60 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400'}">
                     ${isUnread ? '<span class="absolute top-4 right-4 w-2 h-2 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>' : ''}
@@ -1308,13 +1461,13 @@
         window.markAllNotificationsRead = async () => {
             if (!currentUser) return;
             const unread = userNotifications.filter(n => !n.read);
-            if (unread.length === 0) return showToast("ไม่มีการแจ้งเตือนที่ยังไม่ได้อ่านครับ", "warning");
+            if (unread.length === 0) return showToast(t('toasts.noUnread'), "warning");
 
             try {
                 for (const n of unread) {
                     await updateDoc(doc(db, "notifications", n.id), { read: true });
                 }
-                showToast("ทำเครื่องหมายว่าอ่านแล้วทั้งหมดแล้วครับ");
+                showToast(t('toasts.markAllReadSuccess'));
             } catch (e) {
                 showToast(e.message, "error");
             }
@@ -1322,13 +1475,13 @@
 
         // --- Admin Controls Logic ---
         window.toggleHideSong = async (songId, currentHiddenState) => {
-            if (!isAdmin) return showToast("คุณไม่มีสิทธิ์ดำเนินการนี้", "error");
+            if (!isAdmin) return showToast(t('toasts.unauthorized'), "error");
             if (!currentHiddenState) {
                 openAdminAction(songId, 'hide_song', 'เพลง');
             } else {
-                if (confirm("ต้องการยกเลิกการซ่อนเพลงนี้ใช่หรือไม่?")) {
+                if (confirm(t('toasts.unhideConfirm'))) {
                     await updateDoc(doc(db, "songs", songId), { hidden: false });
-                    showToast("แสดงเพลงเรียบร้อยแล้ว");
+                    showToast(t('toasts.showSuccess'));
                 }
             }
         };
@@ -1340,9 +1493,9 @@
 
             const title = document.getElementById('admin-modal-title');
             if (actionType === 'hide_song') {
-                title.innerHTML = `<i class="fa-solid fa-eye-slash text-red-500 mr-1"></i> ซ่อนเพลง: ${targetName}`;
+                title.innerHTML = `<i class="fa-solid fa-eye-slash text-red-500 mr-1"></i> ${t('adminModal.hideTitle')} ${targetName}`;
             } else if (actionType === 'ban_user') {
-                title.innerHTML = `<i class="fa-solid fa-ban text-red-500 mr-1"></i> ระงับการใช้งาน: ${targetName}`;
+                title.innerHTML = `<i class="fa-solid fa-ban text-red-500 mr-1"></i> ${t('adminModal.banTitle')} ${targetName}`;
             }
 
             openModal('adminActionModal');
@@ -1353,16 +1506,16 @@
             const actionType = document.getElementById('admin-action-type').value;
             const reason = document.getElementById('admin-reason').value.trim();
 
-            if (!reason) return showToast("กรุณาระบุเหตุผลการดำเนินการด้วยครับ", "warning");
+            if (!reason) return showToast(t('toasts.reasonRequired'), "warning");
 
             const btn = document.getElementById('adminSubmitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> กำลังดำเนินการ...';
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> ${t('adminModal.btnProcessing')}`;
 
             try {
                 if (actionType === 'hide_song') {
                     const songDoc = await getDoc(doc(db, "songs", targetId));
-                    if (!songDoc.exists()) throw new Error("ไม่พบเพลงนี้ในระบบ");
+                    if (!songDoc.exists()) throw new Error(t('toasts.songNotFound'));
                     const sData = songDoc.data();
 
                     await updateDoc(doc(db, "songs", targetId), { hidden: true });
@@ -1375,7 +1528,7 @@
                         read: false
                     });
 
-                    showToast("ซ่อนเพลงและแจ้งเตือนผู้ใช้แล้ว");
+                    showToast(t('toasts.hideSuccess'));
                 } else if (actionType === 'ban_user') {
                     await updateDoc(doc(db, "users", targetId), { banned: true, banReason: reason });
 
@@ -1387,14 +1540,14 @@
                         read: false
                     });
 
-                    showToast("ระงับผู้ใช้งานและบันทึกข้อมูลเรียบร้อยแล้ว");
+                    showToast(t('toasts.banSuccess'));
                 }
                 closeModal('adminActionModal');
             } catch (e) {
                 showToast(e.message, 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'ยืนยันดำเนินการ';
+                btn.innerHTML = t('adminModal.btnConfirm');
             }
         };
     </script>
