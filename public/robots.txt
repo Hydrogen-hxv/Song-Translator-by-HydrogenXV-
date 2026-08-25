@@ -1,0 +1,6 @@
+# Robots.txt for Song Translator by hxvapp (https://lyric.hxvapp.com/)
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://lyric.hxvapp.com/sitemap.xml

@@ -54,43 +54,48 @@ export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false
         lyricsLayout = `<p class="text-xs text-slate-500 dark:text-slate-400 italic whitespace-pre-wrap">${s.translatedOutput}</p>`;
     }
 
+    const safeUserName = (s.userName || 'User').replace(/"/g, '&quot;');
+    const safeTitle = (s.songTitle || '').replace(/"/g, '&quot;');
+    const safeArtist = (s.artist || '').replace(/"/g, '&quot;');
+
     return `
-    <div class="${cardStyleClass}">
+    <article class="${cardStyleClass}" itemscope itemtype="https://schema.org/MusicRecording">
+        <meta itemprop="inLanguage" content="${s.language || 'unknown'}">
         <div class="flex justify-between items-start gap-2 mb-2">
             <div class="truncate">
                 <div class="flex items-center gap-2 mb-0.5 flex-wrap">
-                    <h3 class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100 font-heading leading-tight truncate">${s.songTitle}</h3>
+                    <h3 itemprop="name" class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100 font-heading leading-tight truncate" title="${safeTitle}">${s.songTitle}</h3>
                     ${hiddenBadge}
                 </div>
-                <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium truncate">${s.artist}</p>
+                <p itemprop="byArtist" class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium truncate" title="${safeArtist}">${s.artist}</p>
             </div>
-            <button type="button" onclick="toggleFavorite(event, '${s.id}')" class="text-xl p-1 transition shrink-0 hover:scale-110 active:scale-95" title="รายการโปรด"><i id="fav-icon-${s.id}" class="${favIconClass}"></i></button>
+            <button type="button" onclick="toggleFavorite(event, '${s.id}')" aria-label="เพิ่มลงรายการโปรด" class="text-xl p-1 transition shrink-0 hover:scale-110 active:scale-95" title="รายการโปรด"><i id="fav-icon-${s.id}" class="${favIconClass}"></i></button>
         </div>
         
-        <div class="bg-slate-50 dark:bg-slate-900/70 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100 dark:border-slate-700/60">${lyricsLayout}</div>
+        <div class="bg-slate-50 dark:bg-slate-900/70 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100 dark:border-slate-700/60" itemprop="recordingOf">${lyricsLayout}</div>
         ${mediaLayout}
 
         <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/80 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-1.5 cursor-pointer shrink-0" onclick="viewPublicProfile('${s.translatedBy}')">
-                <img src="${s.userPhoto || 'https://via.placeholder.com/150'}" class="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center gap-1.5 cursor-pointer shrink-0" onclick="viewPublicProfile('${s.translatedBy}')" title="ดูโปรไฟล์ของผู้แปล">
+                <img src="${s.userPhoto || 'https://via.placeholder.com/150'}" alt="${safeUserName} รูปโปรไฟล์" loading="lazy" width="28" height="28" class="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700">
                 <span class="text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 truncate max-w-[80px] md:max-w-[120px]">${s.userName || 'Unknown'}</span>
             </div>
             <div class="flex items-center gap-1.5 md:gap-2 flex-wrap">
                 ${isOwner || isAdmin ? `
-                    <button type="button" onclick="openEditor('${s.id}')" class="text-[10px] md:text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-signature"></i> แก้ไข</button>
+                    <button type="button" onclick="openEditor('${s.id}')" aria-label="แก้ไขเนื้อเพลง" class="text-[10px] md:text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-signature"></i> แก้ไข</button>
                 ` : ''}
                 ${isOwner ? `
-                    <button type="button" onclick="deleteSong('${s.id}')" class="text-[10px] md:text-xs font-bold text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-trash-can"></i> ลบ</button>
+                    <button type="button" onclick="deleteSong('${s.id}')" aria-label="ลบเนื้อเพลง" class="text-[10px] md:text-xs font-bold text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-trash-can"></i> ลบ</button>
                 ` : ''}
                 ${isAdmin ? `
-                    <button type="button" onclick="toggleHideSong('${s.id}', ${isSongHidden})" class="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-300 hover:text-indigo-800 dark:hover:text-indigo-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 px-2 md:px-3 py-1.5 rounded-lg">
+                    <button type="button" onclick="toggleHideSong('${s.id}', ${isSongHidden})" aria-label="${isSongHidden ? 'แสดงเนื้อเพลง' : 'ซ่อนเนื้อเพลง'}" class="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-300 hover:text-indigo-800 dark:hover:text-indigo-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 px-2 md:px-3 py-1.5 rounded-lg">
                         <i class="fa-solid ${isSongHidden ? 'fa-eye' : 'fa-eye-slash'}"></i> ${isSongHidden ? 'แสดง' : 'ซ่อน'}
                     </button>
-                    <button type="button" onclick="openAdminAction('${s.translatedBy}', 'ban_user', '${(s.userName || '').replace(/'/g, "\\'")}')" class="text-[10px] md:text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/60 bg-slate-100 dark:bg-slate-700 px-2 md:px-3 py-1.5 rounded-lg">
+                    <button type="button" onclick="openAdminAction('${s.translatedBy}', 'ban_user', '${(s.userName || '').replace(/'/g, "\\'")}')" aria-label="ระงับผู้ใช้" class="text-[10px] md:text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/60 bg-slate-100 dark:bg-slate-700 px-2 md:px-3 py-1.5 rounded-lg">
                         <i class="fa-solid fa-ban"></i> ระงับผู้ใช้
                     </button>
                 ` : ''}
             </div>
         </div>
-    </div>`;
+    </article>`;
 }

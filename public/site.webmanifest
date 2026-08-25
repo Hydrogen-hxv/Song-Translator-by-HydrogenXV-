@@ -1,0 +1,17 @@
+{
+  "name": "Song Translator by hxvapp - แปลเนื้อเพลงด้วย AI",
+  "short_name": "SongTranslator",
+  "description": "เว็บแอปพลิเคชันแปลเนื้อเพลงอัจฉริยะ แปลภาษาญี่ปุ่น (พร้อม Romaji คำอ่านไทย), ภาษาจีน (พร้อม Pinyin คำอ่านไทย) และสากลด้วย Google Gemini AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
