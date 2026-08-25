@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMCA Policy - นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์ | Song Translator</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="DMCA Policy - นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์ | Song Translator">
+    <meta name="description" content="นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์ (DMCA Takedown Policy) สำหรับเว็บไซต์ lyric.hxvapp.com ขั้นตอนและช่องทางการแจ้งเตือนลิขสิทธิ์ทางอีเมล lucianoth81@gmail.com ดำเนินการภายใน 24-48 ชั่วโมง">
+    <meta name="keywords" content="DMCA, Copyright Policy, นโยบายลิขสิทธิ์, แจ้งลบเนื้อหา, Song Translator DMCA, lyric.hxvapp.com">
+    <meta name="author" content="HydrogenXV (hxvapp.com)">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://lyric.hxvapp.com/dmca">
+
+    <!-- Mobile & PWA Meta Tags -->
+    <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lyric.hxvapp.com/dmca">
+    <meta property="og:site_name" content="Song Translator by hxvapp.com">
+    <meta property="og:title" content="DMCA Policy - นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์ | Song Translator">
+    <meta property="og:description" content="นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์ (DMCA Takedown Policy) สำหรับเว็บไซต์ lyric.hxvapp.com ดำเนินการระงับหรือลบเนื้อหาภายใน 24-48 ชั่วโมง">
+    <meta property="og:image" content="https://lyric.hxvapp.com/favicon.svg">
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                        darkborder: '#334155'
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        // Init theme immediately
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        h1, h2, h3, h4, button, .font-heading {
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 dark:bg-darkbg text-slate-700 dark:text-slate-200 min-h-screen flex flex-col transition-colors duration-200">
+    <!-- Header Navigation -->
+    <header class="bg-white/90 dark:bg-darkcard/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200 dark:border-darkborder shadow-xs">
+        <div class="container mx-auto px-4 max-w-5xl h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5 text-slate-800 dark:text-slate-100 hover:opacity-90 transition group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-music text-base"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-base font-heading block leading-tight">Song Translator</span>
+                    <span class="text-[10px] text-slate-400 dark:text-slate-400 block -mt-0.5">by hxvapp.com</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-3">
+                <a href="/" class="text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-left text-xs"></i> <span>กลับสู่หน้าหลัก</span>
+                </a>
+                <button type="button" onclick="toggleDarkMode()" aria-label="สลับโหมดมืด / สว่าง" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto px-4 py-8 md:py-12 max-w-4xl flex-grow">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mb-6" aria-label="Breadcrumb">
+            <a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">หน้าแรก</a>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            <span class="text-slate-600 dark:text-slate-300 font-medium">DMCA Policy</span>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-900 rounded-3xl p-6 md:p-10 text-white shadow-xl mb-8 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-9xl">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-semibold mb-4 border border-white/20">
+                    <i class="fa-solid fa-scale-balanced text-amber-300"></i>
+                    <span>Copyright & DMCA Compliance</span>
+                </div>
+                <h1 class="text-2xl md:text-4xl font-bold font-heading mb-3 tracking-tight">
+                    นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์
+                </h1>
+                <p class="text-indigo-100 text-sm md:text-base font-normal max-w-2xl leading-relaxed">
+                    DMCA Takedown Policy — เว็บไซต์ lyric.hxvapp.com เคารพในทรัพย์สินทางปัญญาของศิลปิน ผู้ประพันธ์ และเจ้าของลิขสิทธิ์ทุกท่านอย่างสูงสุด
+                </p>
+            </div>
+        </div>
+
+        <!-- Language Selector Tabs -->
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-darkborder pb-4 mb-8">
+            <div class="flex gap-2">
+                <button type="button" onclick="switchTab('th')" id="tab-th" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-indigo-600 text-white shadow-sm transition">
+                    🇹🇭 ภาษาไทย (TH)
+                </button>
+                <button type="button" onclick="switchTab('en')" id="tab-en" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    🇬🇧 English (EN)
+                </button>
+            </div>
+            <div class="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">
+                อัปเดตล่าสุด: สิงหาคม 2026
+            </div>
+        </div>
+
+        <!-- THAI CONTENT SECTION -->
+        <section id="content-th" class="space-y-6">
+            <!-- Policy Introduction Card -->
+            <div class="bg-white dark:bg-darkcard rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-darkborder leading-relaxed text-sm md:text-base">
+                <h2 class="text-lg md:text-xl font-bold font-heading text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-info text-indigo-500"></i>
+                    <span>นโยบายการแจ้งลบเนื้อหาละเมิดลิขสิทธิ์ (DMCA Policy)</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 mb-4">
+                    เราเคารพในทรัพย์สินทางปัญญาของผู้อื่น และมีความตั้งใจที่จะปฏิบัติตามกฎหมายลิขสิทธิ์อย่างเคร่งครัด หากคุณเป็นเจ้าของผลงาน หรือเป็นตัวแทนที่ได้รับมอบอำนาจ และพบว่ามีเนื้อหาใดบนเว็บไซต์ <strong class="text-indigo-600 dark:text-indigo-400 font-semibold">lyric.hxvapp.com</strong> ที่ละเมิดลิขสิทธิ์ของคุณ กรุณาส่งอีเมลแจ้งเตือนมายัง:
+                </p>
+
+                <!-- Official Email Contact Box -->
+                <div class="bg-slate-50 dark:bg-slate-900/70 rounded-2xl p-4 md:p-5 border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-envelope text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 dark:text-slate-400 block font-medium">อีเมลสำหรับติดต่อเรื่องลิขสิทธิ์ (Official DMCA Contact)</span>
+                            <a href="mailto:lucianoth81@gmail.com?subject=[DMCA%20Notice]%20แจ้งเตือนการละเมิดลิขสิทธิ์%20lyric.hxvapp.com" class="text-base md:text-lg font-bold text-indigo-600 dark:text-indigo-400 hover:underline font-mono">
+                                lucianoth81@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button type="button" onclick="copyEmail()" class="w-full sm:w-auto px-3.5 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-indigo-400 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                            <i id="copy-icon" class="fa-regular fa-copy"></i> <span id="copy-text">คัดลอกอีเมล</span>
+                        </button>
+                        <a href="mailto:lucianoth81@gmail.com?subject=[DMCA%20Notice]%20แจ้งเตือนการละเมิดลิขสิทธิ์%20lyric.hxvapp.com" class="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-paper-plane"></i> <span>ส่งอีเมลทันที</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Information Checklist -->
+            <div class="bg-white dark:bg-darkcard rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-darkborder">
+                <h3 class="text-base md:text-lg font-bold font-heading text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-indigo-500"></i>
+                    <span>ข้อมูลที่ต้องระบุในอีเมลแจ้งเตือน (5 ข้อสำคัญ)</span>
+                </h3>
+                <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-4">
+                    เพื่อให้การตรวจสอบเป็นไปอย่างรวดเร็วและถูกต้อง กรุณาระบุรายละเอียดให้ครบถ้วนตามรายการด้านล่างนี้:
+                </p>
+
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">URL ของหน้าเว็บ</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">ระบุ URL ของหน้าเว็บที่มีเนื้อหาละเมิดลิขสิทธิ์อย่างชัดเจนบนเว็บไซต์ lyric.hxvapp.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">รายละเอียดผลงานต้นฉบับ</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">ระบุรายละเอียดของผลงานต้นฉบับที่ถูกละเมิดลิขสิทธิ์ เช่น ชื่อเพลง, ศิลปิน, ค่ายเพลง หรือลิงก์ไปยังผลงานต้นฉบับที่เป็นทางการ</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">ข้อมูลติดต่อของท่าน</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">ข้อมูลติดต่อของคุณอย่างครบถ้วน (ชื่อ-นามสกุล, เบอร์โทรศัพท์ และที่อยู่อีเมล)</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">ข้อความยืนยันความสุจริตใจ</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">ข้อความยืนยันว่าคุณเชื่อโดยสุจริตว่าการใช้งานดังกล่าวไม่ได้รับอนุญาตจากเจ้าของลิขสิทธิ์ ตัวแทน หรือบทบัญญัติแห่งกฎหมาย</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">ข้อความรับรองความถูกต้องและสิทธิ์</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">ข้อความยืนยันว่าข้อมูลที่แจ้งมานั้นถูกต้องตามความเป็นจริง และคุณคือเจ้าของสิทธิ์หรือเป็นผู้รับมอบอำนาจให้ดำเนินการแทนเจ้าของสิทธิ์แต่เพียงผู้เดียว</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guarantee SLA Banner -->
+            <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl p-5 md:p-6 text-emerald-900 dark:text-emerald-200 flex items-start gap-4 shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <i class="fa-solid fa-clock text-lg"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-base font-heading mb-1 text-emerald-800 dark:text-emerald-100">
+                        การดำเนินการระงับ/ลบเนื้อหาภายใน 24-48 ชั่วโมง
+                    </h4>
+                    <p class="text-xs md:text-sm text-emerald-700 dark:text-emerald-300/90 leading-relaxed">
+                        เมื่อเราได้รับอีเมลแจ้งเตือนที่ครบถ้วน เราจะดำเนินการระงับหรือลบเนื้อหาดังกล่าวออกจากระบบภายใน <strong>24-48 ชั่วโมงทันที โดยไม่มีข้อโต้แย้ง</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENGLISH CONTENT SECTION -->
+        <section id="content-en" class="space-y-6 hidden">
+            <!-- Policy Introduction Card -->
+            <div class="bg-white dark:bg-darkcard rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-darkborder leading-relaxed text-sm md:text-base">
+                <h2 class="text-lg md:text-xl font-bold font-heading text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2.5">
+                    <i class="fa-solid fa-shield-halved text-indigo-500"></i>
+                    <span>DMCA Takedown Policy</span>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 mb-4">
+                    We respect the intellectual property rights of others and strive to comply with all relevant copyright laws. If you are a copyright owner or an authorized agent and believe that any content on <strong class="text-indigo-600 dark:text-indigo-400 font-semibold">lyric.hxvapp.com</strong> infringes upon your copyrights, please submit a notification to:
+                </p>
+
+                <!-- Official Email Contact Box -->
+                <div class="bg-slate-50 dark:bg-slate-900/70 rounded-2xl p-4 md:p-5 border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-envelope text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 dark:text-slate-400 block font-medium">Designated Copyright Agent Email</span>
+                            <a href="mailto:lucianoth81@gmail.com?subject=[DMCA%20Takedown%20Notice]%20lyric.hxvapp.com" class="text-base md:text-lg font-bold text-indigo-600 dark:text-indigo-400 hover:underline font-mono">
+                                lucianoth81@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button type="button" onclick="copyEmail()" class="w-full sm:w-auto px-3.5 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-indigo-400 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                            <i id="copy-icon-en" class="fa-regular fa-copy"></i> <span id="copy-text-en">Copy Email</span>
+                        </button>
+                        <a href="mailto:lucianoth81@gmail.com?subject=[DMCA%20Takedown%20Notice]%20lyric.hxvapp.com" class="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-paper-plane"></i> <span>Send Email</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Information Checklist -->
+            <div class="bg-white dark:bg-darkcard rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-darkborder">
+                <h3 class="text-base md:text-lg font-bold font-heading text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-indigo-500"></i>
+                    <span>Required Information in Takedown Notice (5 Points)</span>
+                </h3>
+                <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-4">
+                    Please ensure your notification contains all of the following elements to avoid processing delays:
+                </p>
+
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">Exact URL(s)</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">The exact URL(s) of the allegedly infringing material on lyric.hxvapp.com.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">Work Identification</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">Identification of the copyrighted work claimed to have been infringed (e.g. song title, artist name, record label, official reference link).</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">Contact Information</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">Your full contact information, including your full name, telephone number, and valid email address.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">Good Faith Statement</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">A statement that you have a good faith belief that the use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+                        <div class="text-sm">
+                            <strong class="text-slate-800 dark:text-slate-100 block mb-0.5">Accuracy & Authority Statement</strong>
+                            <p class="text-slate-600 dark:text-slate-400 text-xs md:text-sm">A statement that the information in the notification is accurate, and under penalty of perjury, that you are authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guarantee SLA Banner -->
+            <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 rounded-2xl p-5 md:p-6 text-emerald-900 dark:text-emerald-200 flex items-start gap-4 shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <i class="fa-solid fa-clock text-lg"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-base font-heading mb-1 text-emerald-800 dark:text-emerald-100">
+                        Immediate Action Within 24-48 Hours
+                    </h4>
+                    <p class="text-xs md:text-sm text-emerald-700 dark:text-emerald-300/90 leading-relaxed">
+                        Upon receipt of a valid takedown notice, we will take immediate action to <strong>remove or disable access to the infringing material within 24-48 hours</strong>.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-darkcard border-t border-slate-200 dark:border-darkborder mt-16 py-8">
+        <div class="container mx-auto px-4 max-w-5xl flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+            <div>
+                <p class="font-bold text-slate-700 dark:text-slate-200 text-sm mb-1">Song Translator by hxvapp.com</p>
+                <p>Dev By <span class="text-indigo-600 dark:text-indigo-400 font-bold">Hydrogenxv</span></p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                <a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition"><i class="fa-solid fa-house text-sm mr-1"></i> Home</a>
+                <a href="/dmca" class="text-indigo-600 dark:text-indigo-400 font-bold transition"><i class="fa-solid fa-shield-halved text-sm mr-1"></i> DMCA Policy</a>
+                <a href="https://github.com/Hydrogen-hxv" target="_blank" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition"><i class="fa-brands fa-github text-sm mr-1"></i> GitHub</a>
+                <a href="mailto:teerapat_kh@hxvapp.com" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition"><i class="fa-solid fa-envelope text-sm mr-1"></i> Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600"></i>
+        <span id="toast-msg">คัดลอกอีเมลเรียบร้อยแล้ว</span>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                if (document.documentElement.classList.contains('dark')) {
+                    icon.className = 'fa-solid fa-sun text-amber-400 text-base';
+                } else {
+                    icon.className = 'fa-solid fa-moon text-slate-600 text-base';
+                }
+            }
+        }
+        updateThemeIcon();
+
+        function switchTab(lang) {
+            const tabTh = document.getElementById('tab-th');
+            const tabEn = document.getElementById('tab-en');
+            const contentTh = document.getElementById('content-th');
+            const contentEn = document.getElementById('content-en');
+
+            if (lang === 'th') {
+                tabTh.className = 'px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-indigo-600 text-white shadow-sm transition';
+                tabEn.className = 'px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition';
+                contentTh.classList.remove('hidden');
+                contentEn.classList.add('hidden');
+            } else {
+                tabEn.className = 'px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-indigo-600 text-white shadow-sm transition';
+                tabTh.className = 'px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition';
+                contentEn.classList.remove('hidden');
+                contentTh.classList.add('hidden');
+            }
+        }
+
+        function copyEmail() {
+            const email = 'lucianoth81@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                showToast('คัดลอก lucianoth81@gmail.com เรียบร้อยแล้ว');
+            }).catch(() => {
+                showToast('อีเมล: lucianoth81@gmail.com');
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            if (toast && toastMsg) {
+                toastMsg.textContent = msg;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 2500);
+            }
+        }
+    </script>
+</body>
+
+</html>

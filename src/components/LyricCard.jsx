@@ -76,6 +76,21 @@ export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false
         <div class="bg-slate-50 dark:bg-slate-900/70 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100 dark:border-slate-700/60" itemprop="recordingOf">${lyricsLayout}</div>
         ${mediaLayout}
 
+        <!-- Disclaimer Box -->
+        <div class="mt-3 p-2.5 rounded-xl bg-slate-50/90 dark:bg-slate-900/50 border border-slate-200/70 dark:border-slate-700/60 text-[11px] text-slate-500 dark:text-slate-400">
+            <div class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-shield-halved text-indigo-500 dark:text-indigo-400 text-xs"></i>
+                <span>${t('disclaimer.title')}</span>
+            </div>
+            <p class="leading-relaxed mb-1.5 text-[10.5px] text-slate-600 dark:text-slate-400">
+                ${t('disclaimer.text')}
+            </p>
+            <p class="text-indigo-600 dark:text-indigo-400 font-semibold flex items-center gap-1 text-[10.5px]">
+                <i class="fa-solid fa-circle-play text-[10px]"></i>
+                <span>${t('disclaimer.support')}</span>
+            </p>
+        </div>
+
         <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/80 flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5 cursor-pointer shrink-0" onclick="viewPublicProfile('${s.translatedBy}')" title="${t('card.profileTooltip')}">
                 <img src="${s.userPhoto || 'https://via.placeholder.com/150'}" alt="${safeUserName} รูปโปรไฟล์" loading="lazy" width="28" height="28" class="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700">

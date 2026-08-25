@@ -13,7 +13,7 @@ export const SUPPORTED_LANGUAGES = [
 export const translations = {
     th: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.2",
+        appSubtitle: "Song Translator by hxvapp.com v4.4",
         nav: {
             themeToggle: "สลับโหมดมืด / สว่าง",
             changelog: "Changelog",
@@ -79,6 +79,11 @@ export const translations = {
             favTooltip: "รายการโปรด",
             favAria: "เพิ่มลงรายการโปรด"
         },
+        disclaimer: {
+            title: "ข้อจำกัดความรับผิดชอบ (Disclaimer):",
+            text: "ลิขสิทธิ์เนื้อเพลง คำแปล และผลงานต้นฉบับทั้งหมดบนเว็บไซต์ lyric.hxvapp.com เป็นทรัพย์สินทางปัญญาของศิลปิน ผู้แต่ง และค่ายเพลงต้นสังกัด ทางเว็บไซต์เป็นเพียงเครื่องมือที่จัดทำขึ้นเพื่อวัตถุประสงค์ในการศึกษา การฝึกภาษา และการออกเสียงเท่านั้น ทางเราไม่ได้อ้างสิทธิ์ความเป็นเจ้าของในเนื้อหาต้นฉบับใดๆ ทั้งสิ้น",
+            support: "โปรดสนับสนุนศิลปินต้นฉบับโดยการรับฟังผลงานผ่านช่องทางสตรีมมิ่งอย่างเป็นทางการ"
+        },
         export: {
             title: "ส่งออกคำร้อง",
             csv: "CSV (.csv)",
@@ -125,7 +130,9 @@ export const translations = {
             byokText: "ระบบไม่ได้จัดเก็บ API Key ของท่านในรูปแบบข้อความปกติ แต่จะทำการเข้ารหัส (Encryption) ผูกกับบัญชีผู้ใช้ เพื่อความปลอดภัยสูงสุด",
             contentTitle: "3. สิทธิ์การจัดการเนื้อหา:",
             contentText: "ผู้ใช้งานเป็นเจ้าของและรับผิดชอบต่อเนื้อเพลงที่นำเข้าสู่ระบบ ระบบสงวนสิทธิ์ในการแก้ไขหรือลบโดยไม่แจ้งล่วงหน้า",
-            contactTitle: "4. การติดต่อ:",
+            disclaimerTitle: "4. ข้อจำกัดความรับผิดชอบ (Disclaimer):",
+            disclaimerText: "ลิขสิทธิ์เนื้อเพลง คำแปล และผลงานต้นฉบับทั้งหมดบนเว็บไซต์ lyric.hxvapp.com เป็นทรัพย์สินทางปัญญาของศิลปิน ผู้แต่ง และค่ายเพลงต้นสังกัด ทางเว็บไซต์เป็นเพียงเครื่องมือที่จัดทำขึ้นเพื่อวัตถุประสงค์ในการศึกษา การฝึกภาษา และการออกเสียงเท่านั้น ทางเราไม่ได้อ้างสิทธิ์ความเป็นเจ้าของในเนื้อหาต้นฉบับใดๆ ทั้งสิ้น โปรดสนับสนุนศิลปินต้นฉบับโดยการรับฟังผลงานผ่านช่องทางสตรีมมิ่งอย่างเป็นทางการ",
+            contactTitle: "5. การติดต่อ:",
             contactText: "หากมีข้อสงสัยหรือพบปัญหาการใช้งาน สามารถติดต่อผู้พัฒนาได้ที่อีเมล teerapat_kh@hxvapp.com หรือ Discord: selenite_rx"
         },
         adminModal: {
@@ -177,7 +184,7 @@ export const translations = {
     },
     en: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.2",
+        appSubtitle: "Song Translator by hxvapp.com v4.4",
         nav: {
             themeToggle: "Toggle Dark / Light Mode",
             changelog: "Changelog",
@@ -243,6 +250,11 @@ export const translations = {
             favTooltip: "Favorites",
             favAria: "Add to favorites"
         },
+        disclaimer: {
+            title: "Disclaimer:",
+            text: "The lyrics, translations, and original musical compositions provided on lyric.hxvapp.com remain the intellectual property of their respective artists, writers, and record labels. This website is an educational tool designed strictly for language learning and pronunciation practice. We do not claim ownership of any copyrighted original materials.",
+            support: "Please support the original artists by streaming their music on official platforms."
+        },
         export: {
             title: "Export Lyrics",
             csv: "CSV (.csv)",
@@ -289,7 +301,9 @@ export const translations = {
             byokText: "The system does not store API Keys in plain text; keys are AES-encrypted with your user account for maximum security.",
             contentTitle: "3. Content Management:",
             contentText: "Users own and are responsible for submitted lyrics. The platform reserves the right to moderate or delete content without prior notice.",
-            contactTitle: "4. Contact:",
+            disclaimerTitle: "4. Disclaimer:",
+            disclaimerText: "The lyrics, translations, and original musical compositions provided on lyric.hxvapp.com remain the intellectual property of their respective artists, writers, and record labels. This website is an educational tool designed strictly for language learning and pronunciation practice. We do not claim ownership of any copyrighted original materials. Please support the original artists by streaming their music on official platforms.",
+            contactTitle: "5. Contact:",
             contactText: "If you have questions or issues, please contact teerapat_kh@hxvapp.com or Discord: selenite_rx"
         },
         adminModal: {
@@ -341,7 +355,7 @@ export const translations = {
     },
     ja: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.2",
+        appSubtitle: "Song Translator by hxvapp.com v4.4",
         nav: {
             themeToggle: "ダーク/ライトモード切替",
             changelog: "更新履歴",
@@ -407,6 +421,11 @@ export const translations = {
             favTooltip: "お気に入り",
             favAria: "お気に入りに追加"
         },
+        disclaimer: {
+            title: "免責事項 (Disclaimer):",
+            text: "lyric.hxvapp.com 上のすべての歌詞、翻訳、および原曲の著作権は、各アーティスト、作詞・作曲者、および所属レコード会社に帰属します。当サイトは語学学習および発音練習のみを目的とした教育用ツールであり、著作権を有するいかなる原著作物の権利も主張いたしません。",
+            support: "公式ストリーミング配信等の正規プラットフォームを通じて、原作者・アーティストの楽曲をお聴きいただき応援をお願いいたします。"
+        },
         export: {
             title: "歌詞をエクスポート",
             csv: "CSV (.csv)",
@@ -453,7 +472,9 @@ export const translations = {
             byokText: "システムはAPIキーをプレーンテキストで保存せず、暗号化してアカウントに安全に紐付けます。",
             contentTitle: "3. コンテンツ管理:",
             contentText: "利用者は投稿した歌詞の責任を負います。運営は予告なく修正または削除する権利を留保します。",
-            contactTitle: "4. お問い合わせ:",
+            disclaimerTitle: "4. 免責事項 (Disclaimer):",
+            disclaimerText: "lyric.hxvapp.com 上のすべての歌詞、翻訳、および原曲の著作権は、各アーティスト、作詞・作曲者、および所属レコード会社に帰属します。当サイトは語学学習および発音練習のみを目的とした教育用ツールであり、著作権を有するいかなる原著作物の権利も主張いたしません。公式配信等でアーティストの応援をお願いいたします。",
+            contactTitle: "5. お問い合わせ:",
             contactText: "ご不明な点やお困りの際は teerapat_kh@hxvapp.com または Discord: selenite_rx までご連絡ください。"
         },
         adminModal: {
@@ -505,7 +526,7 @@ export const translations = {
     },
     zh: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.2",
+        appSubtitle: "Song Translator by hxvapp.com v4.4",
         nav: {
             themeToggle: "切换深色/浅色模式",
             changelog: "更新日志",
@@ -571,6 +592,11 @@ export const translations = {
             favTooltip: "收藏",
             favAria: "添加至收藏"
         },
+        disclaimer: {
+            title: "免责声明 (Disclaimer):",
+            text: "lyric.hxvapp.com 上的所有歌词、翻译及原版音乐作品的知识产权均归属于相应艺术家、词曲创作者及唱片公司。本网站仅为用于语言学习与发音练习的教育工具，我们不对任何受版权保护的原始内容主张所有权。",
+            support: "请通过官方流媒体平台收听音乐，支持原版艺术家。"
+        },
         export: {
             title: "导出歌词",
             csv: "CSV (.csv)",
@@ -617,7 +643,9 @@ export const translations = {
             byokText: "系统不会以明文存储您的API Key，所有Key均进行加密并与账户绑定，确保最高安全性。",
             contentTitle: "3. 内容管理:",
             contentText: "用户对其导入的歌词拥有所有权并承担责任。平台保留随时修改或删除违规内容的权利。",
-            contactTitle: "4. 联系我们:",
+            disclaimerTitle: "4. 免责声明 (Disclaimer):",
+            disclaimerText: "lyric.hxvapp.com 上的所有歌词、翻译及原版音乐作品的知识产权均归属于相应艺术家、词曲创作者及唱片公司。本网站仅为用于语言学习与发音练习的教育工具，我们不对任何受版权保护的原始内容主张所有权。请通过官方渠道支持原版艺术家。",
+            contactTitle: "5. 联系我们:",
             contactText: "如有任何疑问或问题，请联系 teerapat_kh@hxvapp.com 或 Discord: selenite_rx。"
         },
         adminModal: {
