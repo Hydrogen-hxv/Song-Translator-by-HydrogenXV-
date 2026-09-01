@@ -1,6 +1,7 @@
 /**
  * Internationalization (i18n) Module
  * Supports: TH (Thai), EN (English), JP (Japanese), CN (Chinese)
+ * Big Update v5.0: AI Lyrics Analysis, Vocab Context, My Deck, 3D Flashcards
  */
 
 export const SUPPORTED_LANGUAGES = [
@@ -13,16 +14,19 @@ export const SUPPORTED_LANGUAGES = [
 export const translations = {
     th: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.4",
+        appSubtitle: "Song Translator & AI Vocab Studio by hxvapp.com v5.0",
         nav: {
             themeToggle: "สลับโหมดมืด / สว่าง",
-            changelog: "Changelog",
+            changelog: "Changelog v5.0",
             login: "เข้าสู่ระบบ",
             logout: "ออกจากระบบ",
             notifications: "การแจ้งเตือน",
             settings: "ตั้งค่าโปรไฟล์และ BYOK",
             admin: "Admin",
-            langSelect: "เปลี่ยนภาษา / Change Language"
+            langSelect: "เปลี่ยนภาษา / Change Language",
+            myDeck: "คลังศัพท์ส่วนตัว",
+            analysisTab: "วิเคราะห์คำศัพท์ด้วย AI",
+            translateTab: "แปลเนื้อเพลงทั่วไป"
         },
         bannedBanner: {
             prefix: "บัญชีของคุณถูกระงับการใช้งานชั่วคราวเนื่องจาก: ",
@@ -47,6 +51,78 @@ export const translations = {
             step1: "กำลังเชื่อมต่อระบบ AI...",
             step2: "วิเคราะห์และลดการใช้ Token...",
             step3: "เรียบเรียงและบันทึกลงระบบ..."
+        },
+        vocabAnalysis: {
+            heading: "วิเคราะห์คำศัพท์จากเนื้อเพลงด้วย AI",
+            sourceLangLabel: "ภาษาต้นฉบับ (Source)",
+            targetLangLabel: "ภาษาผลลัพธ์ (Target)",
+            optThai: "🇹🇭 ภาษาไทย (Thai)",
+            optJapanese: "🇯🇵 ภาษาญี่ปุ่น (Japanese)",
+            optEnglish: "🇬🇧 ภาษาอังกฤษ (English)",
+            wordCountLabel: "จำนวนคำศัพท์ที่ต้องการสกัด",
+            opt5words: "5 คำ (ฉบับย่อ/กระชับ)",
+            opt10words: "10 คำ (มาตรฐาน)",
+            opt15words: "15 คำ (ระดับปานกลาง)",
+            opt25words: "25 คำ (เจาะลึก)",
+            opt30words: "30 คำ (ครอบคลุมทั้งเพลง)",
+            btnAnalyze: "วิเคราะห์คำศัพท์ด้วย AI",
+            btnAnalyzing: "AI กำลังวิเคราะห์และแยกคำศัพท์...",
+            step1: "กำลังอ่านและแยกคำศัพท์สำคัญจากเนื้อเพลง...",
+            step2: "สร้างบทสนทนาจำลองและโครงสร้างประโยค...",
+            step3: "วิเคราะห์คำต่อคำ (Tokenization) และไวยากรณ์...",
+            highlighterHeading: "เนื้อเพลงพร้อมเน้นคำศัพท์ (Lyrics Highlighter)",
+            highlighterHint: "คลิกคำที่ไฮไลท์เพื่อเลื่อนไปยังรายละเอียด",
+            vocabListHeading: "คลังคำศัพท์เชิงลึก (Vocabulary Context)",
+            items: "รายการ",
+            wordsExtracted: "คำศัพท์ที่สกัดได้",
+            practiceNow: "เริ่มฝึก Flashcards",
+            emptyOrInvalid: "ไม่สามารถประมวลผลข้อมูลคำศัพท์ได้ กรุณาลองใหม่อีกครั้ง"
+        },
+        vocabCard: {
+            meaningLabel: "ความหมาย",
+            inSongContext: "บริบทในเนื้อเพลง",
+            conversationTitle: "ตัวอย่างบทสนทนาจริง",
+            tokenizationTitle: "วิเคราะห์แยกคำต่อคำ (Word-by-Word Analysis)",
+            listenPronunciation: "ฟังเสียงออกเสียง",
+            saved: "บันทึกแล้ว",
+            saveToDeck: "บันทึกลงคลัง"
+        },
+        myDeck: {
+            title: "คลังศัพท์ส่วนตัวของฉัน (My Deck)",
+            searchPlaceholder: "ค้นหาคำศัพท์, คำอ่าน, ความหมาย หรือชื่อเพลง...",
+            filterAll: "ทุกภาษา",
+            filterJapanese: "🇯🇵 ญี่ปุ่น",
+            filterEnglish: "🇬🇧 อังกฤษ",
+            filterChinese: "🇨🇳 จีน",
+            emptyTitle: "ยังไม่มีคำศัพท์ในคลังส่วนตัว",
+            emptyDesc: "กดปุ่ม ⭐️ บนการ์ดคำศัพท์ที่วิเคราะห์ด้วย AI เพื่อบันทึกคำที่สนใจไว้ทบทวนได้ทุกที่ทุกเวลา",
+            searchNoResult: "ไม่พบคำศัพท์ที่ตรงกับการค้นหา",
+            deleteTooltip: "ลบออกจากคลังศัพท์",
+            startFlashcards: "เริ่มฝึกทบทวน (Flashcards)",
+            cloudSynced: "ข้อมูลซิงค์กับคลาวด์แล้ว",
+            guestMode: "โหมดผู้เยี่ยมชม (บันทึกในเครื่อง)"
+        },
+        flashcard: {
+            title: "ฝึกทบทวนคำศัพท์ (Flashcard Studio)",
+            cardProgress: "การ์ดที่",
+            showHint: "ดูคำอ่าน / Romaji",
+            clickToFlip: "คลิกที่การ์ดเพื่อพลิกดูเฉลย",
+            solutionTitle: "เฉลยความหมาย & ไวยากรณ์",
+            rateMemoryHint: "ประเมินระดับความจำของคุณสำหรับคำนี้:",
+            forgotBtn: "ลืม (Forgot)",
+            gotItBtn: "จำได้แม่น (Got it)",
+            finalScore: "คะแนนสรุปผลการฝึก",
+            accuracy: "ความแม่นยำ",
+            summaryGreatTitle: "สุดยอดมาก! ความจำดีเยี่ยม 🎉",
+            summaryGreatDesc: "คุณจำคำศัพท์ส่วนใหญ่ได้อย่างแม่นยำ หมั่นทบทวนเป็นประจำเพื่อความจำระยะยาวครับ",
+            summaryGoodTitle: "เก่งมาก! พัฒนาได้อีก 👍",
+            summaryGoodDesc: "ทำได้ดีมาก ลองทบทวนคำศัพท์ที่ยังจำไม่ได้อีกรอบเพื่อความแม่นยำยิ่งขึ้น",
+            summaryKeepTryingTitle: "สู้ๆ นะครับ! มาฝึกฝนกันต่อ 💪",
+            summaryKeepTryingDesc: "การเรียนภาษาต้องอาศัยการฝึกซ้ำ ลองทบทวนคำศัพท์ที่ลืมอีกสักรอบนะครับ",
+            forgottenListTitle: "คำศัพท์ที่ควรทบทวนเพิ่มเติม",
+            reviewForgottenBtn: "ฝึกซ้ำเฉพาะคำที่ลืม",
+            restartAllBtn: "เริ่มฝึกใหม่ทั้งหมด",
+            backToDeckBtn: "กลับสู่คลังคำศัพท์"
         },
         library: {
             heading: "คลังเพลงแปลสาธารณะ",
@@ -77,7 +153,8 @@ export const translations = {
             btnBan: "ระงับผู้ใช้",
             btnExport: "ส่งออก",
             favTooltip: "รายการโปรด",
-            favAria: "เพิ่มลงรายการโปรด"
+            favAria: "เพิ่มลงรายการโปรด",
+            btnAnalyzeVocab: "วิเคราะห์ศัพท์ AI"
         },
         disclaimer: {
             title: "ข้อจำกัดความรับผิดชอบ (Disclaimer):",
@@ -120,12 +197,12 @@ export const translations = {
             noWorks: "ผู้ใช้นี้ยังไม่มีผลงานแปลเพลงในขณะนี้"
         },
         changelogModal: {
-            title: "อัปเดตและประวัติการพัฒนา"
+            title: "อัปเดตและประวัติการพัฒนา (Patch Notes)"
         },
         tosModal: {
             title: "ข้อกำหนดและเงื่อนไข (Terms of Service)",
             introTitle: "1. บทนำ:",
-            introText: "เว็บไซต์ lyric.Hxvapp.com ดำเนินการโดย hxvapp.com มีวัตถุประสงค์เพื่อเป็นเครื่องมือช่วยแปลเนื้อเพลงส่วนบุคคลผ่านระบบ AI",
+            introText: "เว็บไซต์ lyric.Hxvapp.com ดำเนินการโดย hxvapp.com มีวัตถุประสงค์เพื่อเป็นเครื่องมือช่วยแปลเนื้อเพลงและเรียนรู้ภาษาผ่านระบบ AI",
             byokTitle: "2. ข้อมูลและการเข้ารหัส (BYOK):",
             byokText: "ระบบไม่ได้จัดเก็บ API Key ของท่านในรูปแบบข้อความปกติ แต่จะทำการเข้ารหัส (Encryption) ผูกกับบัญชีผู้ใช้ เพื่อความปลอดภัยสูงสุด",
             contentTitle: "3. สิทธิ์การจัดการเนื้อหา:",
@@ -150,6 +227,13 @@ export const translations = {
             empty: "ไม่มีการแจ้งเตือนในขณะนี้",
             justNow: "เมื่อสักครู่"
         },
+        turnstile: {
+            securityCheck: "ระบบตรวจสอบความปลอดภัย (Security Check)",
+            waiting: "กำลังรอการยืนยันความปลอดภัย...",
+            verified: "ยืนยันความปลอดภัยเรียบร้อยแล้ว",
+            expired: "การยืนยันหมดอายุ กรุณายืนยันใหม่",
+            error: "เกิดข้อผิดพลาดในการตรวจสอบความปลอดภัย"
+        },
         toasts: {
             loginRequired: "กรุณาเข้าสู่ระบบก่อนใช้งานครับ",
             loginFavRequired: "กรุณาเข้าสู่ระบบก่อนบันทึกรายการโปรด",
@@ -158,9 +242,15 @@ export const translations = {
             keyIssue: "คีย์ของคุณมีปัญหา กรุณาตั้งค่าใหม่ในระบบครับ",
             keyMissing: "ไม่พบ API Key โปรดตั้งค่าที่เมนูฟันเฟือง (1 คีย์ใช้ได้หลายบัญชี)",
             fillRequired: "กรุณาระบุชื่อเพลงและเนื้อเพลงให้ครบถ้วน",
+            securityRequired: "กรุณายืนยันความปลอดภัย (Security Check) ก่อนดำเนินการครับ",
             aiError: "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์ AI",
             keyInvalid: "API Key ถูกปฏิเสธ หรือไม่ถูกต้อง โปรดตรวจสอบใหม่ครับ",
             translateSuccess: "แปลเพลงและบันทึกข้อมูลเรียบร้อยแล้ว!",
+            vocabAnalysisSuccess: "วิเคราะห์คำศัพท์และสร้างบทเรียนเรียบร้อยแล้ว!",
+            vocabCacheHit: "โหลดผลวิเคราะห์คำศัพท์จากคลังข้อมูลทันที (Instant Cache ⚡)",
+            vocabSaved: "บันทึกคำศัพท์ลงในคลังเรียบร้อยแล้ว!",
+            vocabRemoved: "นำคำศัพท์ออกจากคลังแล้ว",
+            deckEmptyWarning: "ยังไม่มีคำศัพท์ในคลังสำหรับฝึก กรุณาวิเคราะห์และบันทึกคำศัพท์ก่อนครับ",
             favRemoved: "นำออกจากรายการโปรดแล้ว",
             favAdded: "บันทึกเป็นรายการโปรดแล้ว",
             favError: "เกิดข้อผิดพลาดในการบันทึกรายการโปรด",
@@ -184,16 +274,19 @@ export const translations = {
     },
     en: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.4",
+        appSubtitle: "Song Translator & AI Vocab Studio by hxvapp.com v5.0",
         nav: {
             themeToggle: "Toggle Dark / Light Mode",
-            changelog: "Changelog",
+            changelog: "Changelog v5.0",
             login: "Sign In",
             logout: "Sign Out",
             notifications: "Notifications",
             settings: "Profile & BYOK Settings",
             admin: "Admin",
-            langSelect: "Change Language"
+            langSelect: "Change Language",
+            myDeck: "My Deck",
+            analysisTab: "AI Lyrics Analysis",
+            translateTab: "Song Translation"
         },
         bannedBanner: {
             prefix: "Your account has been temporarily suspended due to: ",
@@ -218,6 +311,78 @@ export const translations = {
             step1: "Connecting to AI system...",
             step2: "Analyzing & optimizing token usage...",
             step3: "Formatting & saving to database..."
+        },
+        vocabAnalysis: {
+            heading: "AI Lyrics Vocabulary Analysis",
+            sourceLangLabel: "Source Language",
+            targetLangLabel: "Target Translation Language",
+            optThai: "🇹🇭 Thai",
+            optJapanese: "🇯🇵 Japanese",
+            optEnglish: "🇬🇧 English",
+            wordCountLabel: "Vocabulary Count to Extract",
+            opt5words: "5 Words (Compact)",
+            opt10words: "10 Words (Standard)",
+            opt15words: "15 Words (Intermediate)",
+            opt25words: "25 Words (In-Depth)",
+            opt30words: "30 Words (Full Coverage)",
+            btnAnalyze: "Analyze Lyrics with AI",
+            btnAnalyzing: "AI is analyzing vocabulary...",
+            step1: "Extracting key vocabulary and morphemes...",
+            step2: "Generating natural conversations & contexts...",
+            step3: "Performing tokenization & syntactic breakdown...",
+            highlighterHeading: "Lyrics Highlighter",
+            highlighterHint: "Click highlighted words to jump to details",
+            vocabListHeading: "Vocabulary Context & Analysis",
+            items: "items",
+            wordsExtracted: "Words Extracted",
+            practiceNow: "Start Flashcards",
+            emptyOrInvalid: "Unable to parse vocabulary data. Please try again."
+        },
+        vocabCard: {
+            meaningLabel: "Meaning",
+            inSongContext: "Context in Song",
+            conversationTitle: "Simulated Conversation",
+            tokenizationTitle: "Word-by-Word Breakdown (Tokenization)",
+            listenPronunciation: "Listen to pronunciation",
+            saved: "Saved",
+            saveToDeck: "Save to Deck"
+        },
+        myDeck: {
+            title: "My Personal Vocabulary Deck",
+            searchPlaceholder: "Search vocabulary, readings, meanings, or songs...",
+            filterAll: "All Languages",
+            filterJapanese: "🇯🇵 Japanese",
+            filterEnglish: "🇬🇧 English",
+            filterChinese: "🇨🇳 Chinese",
+            emptyTitle: "Your Deck is Empty",
+            emptyDesc: "Click the ⭐️ button on any AI-analyzed vocabulary card to save words for spaced repetition practice.",
+            searchNoResult: "No vocabulary items matched your search.",
+            deleteTooltip: "Remove from My Deck",
+            startFlashcards: "Start Flashcard Practice",
+            cloudSynced: "Cloud Synced",
+            guestMode: "Guest Mode (Saved Locally)"
+        },
+        flashcard: {
+            title: "Flashcard Review Studio",
+            cardProgress: "Card",
+            showHint: "Show Reading / Romaji Hint",
+            clickToFlip: "Click card to flip for solution",
+            solutionTitle: "Solution & Grammar Breakdown",
+            rateMemoryHint: "Rate your memory for this card:",
+            forgotBtn: "Forgot",
+            gotItBtn: "Got it!",
+            finalScore: "Final Review Score",
+            accuracy: "Accuracy",
+            summaryGreatTitle: "Outstanding! Perfect Memory 🎉",
+            summaryGreatDesc: "You remembered almost all vocabulary accurately. Keep up the regular practice!",
+            summaryGoodTitle: "Great Job! Well Done 👍",
+            summaryGoodDesc: "Solid performance. Review the forgotten cards once more to solidify your memory.",
+            summaryKeepTryingTitle: "Keep Going! Practice Makes Perfect 💪",
+            summaryKeepTryingDesc: "Language learning is a journey. Try reviewing the forgotten words once more!",
+            forgottenListTitle: "Words Needing Review",
+            reviewForgottenBtn: "Review Forgotten Words",
+            restartAllBtn: "Restart All Cards",
+            backToDeckBtn: "Back to My Deck"
         },
         library: {
             heading: "Public Translated Song Library",
@@ -248,7 +413,8 @@ export const translations = {
             btnBan: "Ban User",
             btnExport: "Export",
             favTooltip: "Favorites",
-            favAria: "Add to favorites"
+            favAria: "Add to favorites",
+            btnAnalyzeVocab: "Analyze Vocab"
         },
         disclaimer: {
             title: "Disclaimer:",
@@ -291,12 +457,12 @@ export const translations = {
             noWorks: "This user has no translations yet"
         },
         changelogModal: {
-            title: "Updates & Changelog"
+            title: "Updates & Changelog (Patch Notes)"
         },
         tosModal: {
             title: "Terms of Service",
             introTitle: "1. Introduction:",
-            introText: "lyric.Hxvapp.com is operated by hxvapp.com as an AI-powered personal song translation tool.",
+            introText: "lyric.Hxvapp.com is operated by hxvapp.com as an AI-powered personal song translation & language learning tool.",
             byokTitle: "2. Data & Encryption (BYOK):",
             byokText: "The system does not store API Keys in plain text; keys are AES-encrypted with your user account for maximum security.",
             contentTitle: "3. Content Management:",
@@ -321,6 +487,13 @@ export const translations = {
             empty: "No notifications at this time",
             justNow: "Just now"
         },
+        turnstile: {
+            securityCheck: "Security Check (Cloudflare Turnstile)",
+            waiting: "Waiting for security verification...",
+            verified: "Security verified successfully",
+            expired: "Verification expired, please verify again",
+            error: "Security verification failed"
+        },
         toasts: {
             loginRequired: "Please sign in before using this feature.",
             loginFavRequired: "Please sign in before saving favorites.",
@@ -329,9 +502,15 @@ export const translations = {
             keyIssue: "There is an issue with your API key. Please reconfigure it in settings.",
             keyMissing: "API Key not found. Please configure it in the settings menu.",
             fillRequired: "Please provide both song title and lyrics.",
+            securityRequired: "Please complete the security check before proceeding.",
             aiError: "AI server error occurred.",
             keyInvalid: "API Key rejected or invalid. Please check again.",
             translateSuccess: "Song translated and saved successfully!",
+            vocabAnalysisSuccess: "Vocabulary analyzed and study cards generated!",
+            vocabCacheHit: "Loaded vocabulary analysis from database cache (Instant ⚡)!",
+            vocabSaved: "Saved vocabulary to My Deck!",
+            vocabRemoved: "Removed vocabulary from My Deck.",
+            deckEmptyWarning: "Your deck has no vocabulary cards yet. Please analyze lyrics and bookmark words first.",
             favRemoved: "Removed from favorites.",
             favAdded: "Saved to favorites.",
             favError: "Error saving favorite.",
@@ -355,16 +534,19 @@ export const translations = {
     },
     ja: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.4",
+        appSubtitle: "Song Translator & AI Vocab Studio by hxvapp.com v5.0",
         nav: {
             themeToggle: "ダーク/ライトモード切替",
-            changelog: "更新履歴",
+            changelog: "更新履歴 v5.0",
             login: "ログイン",
             logout: "ログアウト",
             notifications: "通知",
             settings: "プロフィール・BYOK設定",
             admin: "Admin",
-            langSelect: "言語を変更 / Language"
+            langSelect: "言語を変更 / Language",
+            myDeck: "マイ単語帳",
+            analysisTab: "AI単語分析",
+            translateTab: "歌詞翻訳"
         },
         bannedBanner: {
             prefix: "アカウントが一時的に利用停止されています。理由: ",
@@ -389,6 +571,78 @@ export const translations = {
             step1: "AIシステムに接続中...",
             step2: "トークン使用量を分析・最適化中...",
             step3: "整理してデータベースに保存中..."
+        },
+        vocabAnalysis: {
+            heading: "AIによる歌詞の重要単語分析",
+            sourceLangLabel: "原文の言語 (Source)",
+            targetLangLabel: "翻訳先言語 (Target)",
+            optThai: "🇹🇭 タイ語",
+            optJapanese: "🇯🇵 日本語",
+            optEnglish: "🇬🇧 英語",
+            wordCountLabel: "抽出する単語数",
+            opt5words: "5単語 (要約・厳選)",
+            opt10words: "10単語 (標準)",
+            opt15words: "15単語 (中級)",
+            opt25words: "25単語 (詳細分析)",
+            opt30words: "30単語 (楽曲全体網羅)",
+            btnAnalyze: "AIで単語を分析する",
+            btnAnalyzing: "AIが単語を分析中...",
+            step1: "歌詞から重要単語と文法構造を抽出中...",
+            step2: "自然な対話シミュレーションと文脈を作成中...",
+            step3: "品詞分解(Tokenization)と語彙解説を生成中...",
+            highlighterHeading: "歌詞ハイライター (Lyrics Highlighter)",
+            highlighterHint: "ハイライトされた単語をクリックすると詳細へ移動します",
+            vocabListHeading: "詳細語彙解説 (Vocabulary Context)",
+            items: "件",
+            wordsExtracted: "抽出された単語",
+            practiceNow: "フラッシュカード開始",
+            emptyOrInvalid: "単語データの解析に失敗しました。もう一度お試しください。"
+        },
+        vocabCard: {
+            meaningLabel: "意味・定義",
+            inSongContext: "歌詞中の文脈",
+            conversationTitle: "会話例文シミュレーション",
+            tokenizationTitle: "品詞分解・形態素解析 (Word-by-Word Analysis)",
+            listenPronunciation: "発音を聞く",
+            saved: "保存済み",
+            saveToDeck: "単語帳に保存"
+        },
+        myDeck: {
+            title: "マイ単語帳 (My Deck)",
+            searchPlaceholder: "単語、読み方、意味、曲名で検索...",
+            filterAll: "すべての言語",
+            filterJapanese: "🇯🇵 日本語",
+            filterEnglish: "🇬🇧 英語",
+            filterChinese: "🇨🇳 中国語",
+            emptyTitle: "単語帳はまだ空です",
+            emptyDesc: "AI分析結果の⭐️ボタンを押すと、お気に入りの単語をいつでも復習できるように保存できます。",
+            searchNoResult: "該当する単語が見つかりませんでした",
+            deleteTooltip: "単語帳から削除",
+            startFlashcards: "フラッシュカードで復習する",
+            cloudSynced: "クラウド同期完了",
+            guestMode: "ゲストモード (ローカル保存)"
+        },
+        flashcard: {
+            title: "フラッシュカード学習スタジオ",
+            cardProgress: "カード",
+            showHint: "読み方 / 発音ヒントを表示",
+            clickToFlip: "カードをクリックして正解を確認",
+            solutionTitle: "正解・語彙解説",
+            rateMemoryHint: "この単語の記憶定着度を選択してください:",
+            forgotBtn: "忘れた (Forgot)",
+            gotItBtn: "覚えている (Got it)",
+            finalScore: "学習結果スコア",
+            accuracy: "正解率",
+            summaryGreatTitle: "素晴らしい！完璧な記憶力です 🎉",
+            summaryGreatDesc: "ほとんどの単語を正確に覚えています。定期的に復習を続けましょう！",
+            summaryGoodTitle: "よくできました！順調です 👍",
+            summaryGoodDesc: "良い成果です。忘れた単語をもう一度復習して定着させましょう。",
+            summaryKeepTryingTitle: "その調子！継続は力なり 💪",
+            summaryKeepTryingDesc: "語学学習には反復が大切です。忘れた単語をもう一度確認してみましょう！",
+            forgottenListTitle: "復習が必要な単語",
+            reviewForgottenBtn: "忘れた単語のみ再練習",
+            restartAllBtn: "最初からすべて再練習",
+            backToDeckBtn: "単語帳に戻る"
         },
         library: {
             heading: "公開翻訳歌詞ライブラリ",
@@ -419,7 +673,8 @@ export const translations = {
             btnBan: "ユーザー停止",
             btnExport: "エクスポート",
             favTooltip: "お気に入り",
-            favAria: "お気に入りに追加"
+            favAria: "お気に入りに追加",
+            btnAnalyzeVocab: "AI単語分析"
         },
         disclaimer: {
             title: "免責事項 (Disclaimer):",
@@ -462,12 +717,12 @@ export const translations = {
             noWorks: "このユーザーの翻訳作品はまだありません"
         },
         changelogModal: {
-            title: "アップデート＆更新履歴"
+            title: "アップデート＆更新履歴 (Patch Notes)"
         },
         tosModal: {
             title: "利用規約 (Terms of Service)",
             introTitle: "1. はじめに:",
-            introText: "lyric.Hxvapp.comはhxvapp.comが運営するAI歌詞翻訳支援ツールです。",
+            introText: "lyric.Hxvapp.comはhxvapp.comが運営するAI歌詞翻訳・語学学習支援ツールです。",
             byokTitle: "2. データと暗号化 (BYOK):",
             byokText: "システムはAPIキーをプレーンテキストで保存せず、暗号化してアカウントに安全に紐付けます。",
             contentTitle: "3. コンテンツ管理:",
@@ -492,6 +747,13 @@ export const translations = {
             empty: "現在通知はありません",
             justNow: "たった今"
         },
+        turnstile: {
+            securityCheck: "セキュリティ確認 (Security Check)",
+            waiting: "セキュリティ確認中...",
+            verified: "セキュリティ確認が完了しました",
+            expired: "確認の有効期限が切れました。再試行してください",
+            error: "セキュリティ確認に失敗しました"
+        },
         toasts: {
             loginRequired: "ログインしてください。",
             loginFavRequired: "お気に入りを保存するにはログインしてください。",
@@ -500,9 +762,15 @@ export const translations = {
             keyIssue: "キーに問題があります。設定メニューで再設定してください。",
             keyMissing: "APIキーが見つかりません。設定メニューで設定してください。",
             fillRequired: "曲名と歌詞の両方を入力してください。",
+            securityRequired: "続行する前にセキュリティ確認を完了してください。",
             aiError: "AIサーバーでエラーが発生しました。",
             keyInvalid: "APIキーが無効または拒否されました。ご確認ください。",
             translateSuccess: "翻訳と保存が完了しました！",
+            vocabAnalysisSuccess: "単語の分析と学習カードの生成が完了しました！",
+            vocabCacheHit: "データベースキャッシュから語彙分析を即座に読み込みました (高速 ⚡)！",
+            vocabSaved: "単語帳に保存しました！",
+            vocabRemoved: "単語帳から削除しました。",
+            deckEmptyWarning: "単語帳にカードがありません。先に歌詞を分析して単語を保存してください。",
             favRemoved: "お気に入りから削除しました。",
             favAdded: "お気に入りに追加しました。",
             favError: "お気に入りの保存中にエラーが発生しました。",
@@ -526,16 +794,19 @@ export const translations = {
     },
     zh: {
         appName: "Song Translate App",
-        appSubtitle: "Song Translator by hxvapp.com v4.4",
+        appSubtitle: "Song Translator & AI Vocab Studio by hxvapp.com v5.0",
         nav: {
             themeToggle: "切换深色/浅色模式",
-            changelog: "更新日志",
+            changelog: "更新日志 v5.0",
             login: "登录",
             logout: "退出登录",
             notifications: "通知",
             settings: "个人资料与BYOK设置",
             admin: "Admin",
-            langSelect: "切换语言 / Language"
+            langSelect: "切换语言 / Language",
+            myDeck: "我的词库",
+            analysisTab: "AI歌词分析",
+            translateTab: "歌词翻译"
         },
         bannedBanner: {
             prefix: "您的账户已被暂时封禁，原因：",
@@ -560,6 +831,78 @@ export const translations = {
             step1: "正在连接AI系统...",
             step2: "正在分析并优化Token消耗...",
             step3: "正在整理并保存至数据库..."
+        },
+        vocabAnalysis: {
+            heading: "AI歌词词汇与语法深度分析",
+            sourceLangLabel: "源语言 (Source)",
+            targetLangLabel: "翻译目标语言 (Target)",
+            optThai: "🇹🇭 泰语",
+            optJapanese: "🇯🇵 日语",
+            optEnglish: "🇬🇧 英语",
+            wordCountLabel: "要提取的词汇数量",
+            opt5words: "5个词 (精选)",
+            opt10words: "10个词 (标准)",
+            opt15words: "15个词 (中级)",
+            opt25words: "25个词 (深入分析)",
+            opt30words: "30个词 (全曲覆盖)",
+            btnAnalyze: "使用AI开始分析词汇",
+            btnAnalyzing: "AI正在深度分析词汇...",
+            step1: "正在提取歌词核心词汇与读音...",
+            step2: "正在生成生动对话情境与句型...",
+            step3: "正在进行词对词分词(Tokenization)与语法解析...",
+            highlighterHeading: "歌词高亮器 (Lyrics Highlighter)",
+            highlighterHint: "点击高亮词汇可直接跳转至详细解析",
+            vocabListHeading: "深度词汇解析 (Vocabulary Context)",
+            items: "项",
+            wordsExtracted: "提取的词汇",
+            practiceNow: "开始抽认卡练习",
+            emptyOrInvalid: "无法解析词汇数据，请重试。"
+        },
+        vocabCard: {
+            meaningLabel: "释义",
+            inSongContext: "歌词语境",
+            conversationTitle: "情境对话示例",
+            tokenizationTitle: "逐词分词与语法分析 (Tokenization)",
+            listenPronunciation: "播放发音",
+            saved: "已保存",
+            saveToDeck: "保存至词库"
+        },
+        myDeck: {
+            title: "我的专属生词库 (My Deck)",
+            searchPlaceholder: "搜索词汇、读音、释义或歌名...",
+            filterAll: "所有语言",
+            filterJapanese: "🇯🇵 日语",
+            filterEnglish: "🇬🇧 英语",
+            filterChinese: "🇨🇳 中文",
+            emptyTitle: "生词库空空如也",
+            emptyDesc: "在AI词汇分析卡片上点击⭐️按钮，即可将感兴趣的单词保存至个人词库中，随时复习。",
+            searchNoResult: "未找到符合条件的词汇",
+            deleteTooltip: "从词库中删除",
+            startFlashcards: "开始抽认卡复习 (Flashcards)",
+            cloudSynced: "云端已同步",
+            guestMode: "访客模式 (本地保存)"
+        },
+        flashcard: {
+            title: "3D抽认卡复习工坊 (Flashcard Studio)",
+            cardProgress: "卡片",
+            showHint: "查看读音/拼音提示",
+            clickToFlip: "点击卡片翻转查看释义",
+            solutionTitle: "答案与语法解析",
+            rateMemoryHint: "请评估您对此词汇的记忆程度：",
+            forgotBtn: "忘记 (Forgot)",
+            gotItBtn: "记住了 (Got it)",
+            finalScore: "复习成绩总结",
+            accuracy: "准确率",
+            summaryGreatTitle: "太棒了！记忆力超群 🎉",
+            summaryGreatDesc: "您准确记住了绝大部分单词，请保持定期复习以巩固长期记忆！",
+            summaryGoodTitle: "做得好！继续加油 👍",
+            summaryGoodDesc: "表现非常出色，建议再复习一遍遗忘的单词以加深印象。",
+            summaryKeepTryingTitle: "加油！熟能生巧 💪",
+            summaryKeepTryingDesc: "语言学习需要反复练习，再复习一遍记不清的生词吧！",
+            forgottenListTitle: "需要重点复习的单词",
+            reviewForgottenBtn: "仅复习遗忘的单词",
+            restartAllBtn: "重新练习全部",
+            backToDeckBtn: "返回生词库"
         },
         library: {
             heading: "公开翻译歌词库",
@@ -590,7 +933,8 @@ export const translations = {
             btnBan: "封禁用户",
             btnExport: "导出",
             favTooltip: "收藏",
-            favAria: "添加至收藏"
+            favAria: "添加至收藏",
+            btnAnalyzeVocab: "AI词汇分析"
         },
         disclaimer: {
             title: "免责声明 (Disclaimer):",
@@ -633,12 +977,12 @@ export const translations = {
             noWorks: "该用户暂无翻译作品"
         },
         changelogModal: {
-            title: "更新日志"
+            title: "更新日志 (Patch Notes)"
         },
         tosModal: {
             title: "服务条款 (Terms of Service)",
             introTitle: "1. 简介:",
-            introText: "lyric.Hxvapp.com 由 hxvapp.com 运营，旨在作为基于AI的个人歌词翻译工具。",
+            introText: "lyric.Hxvapp.com 由 hxvapp.com 运营，旨在作为基于AI的个人歌词翻译与语言学习工具。",
             byokTitle: "2. 数据与加密 (BYOK):",
             byokText: "系统不会以明文存储您的API Key，所有Key均进行加密并与账户绑定，确保最高安全性。",
             contentTitle: "3. 内容管理:",
@@ -663,6 +1007,13 @@ export const translations = {
             empty: "暂无通知",
             justNow: "刚刚"
         },
+        turnstile: {
+            securityCheck: "安全验证 (Security Check)",
+            waiting: "正在等待安全验证...",
+            verified: "安全验证已通过",
+            expired: "验证已过期，请重新验证",
+            error: "安全验证失败"
+        },
         toasts: {
             loginRequired: "请先登录后再使用此功能。",
             loginFavRequired: "请先登录后再添加收藏。",
@@ -671,9 +1022,15 @@ export const translations = {
             keyIssue: "您的API Key存在问题，请在设置中重新配置。",
             keyMissing: "未找到API Key，请在设置菜单中进行配置。",
             fillRequired: "请完整填写歌曲名称和歌词。",
+            securityRequired: "请在继续之前完成安全验证。",
             aiError: "AI服务器发生错误。",
             keyInvalid: "API Key被拒绝或无效，请重新检查。",
             translateSuccess: "歌词翻译并保存成功！",
+            vocabAnalysisSuccess: "词汇分析与学习卡片生成成功！",
+            vocabCacheHit: "已从数据库秒级载入分析缓存 (极速 ⚡)！",
+            vocabSaved: "已成功保存词汇至生词库！",
+            vocabRemoved: "已从生词库中移除词汇。",
+            deckEmptyWarning: "生词库暂无卡片，请先分析歌词并收藏单词。",
             favRemoved: "已从收藏夹中移除。",
             favAdded: "已保存至收藏夹。",
             favError: "保存收藏夹时出错。",

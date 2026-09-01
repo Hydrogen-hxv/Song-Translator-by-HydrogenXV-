@@ -1,5 +1,7 @@
 /**
  * LyricCard Component (Vanilla HTML template generator)
+ * Enhanced with comprehensive support for 2-language / bilingual songs,
+ * resilient property extraction, and high-contrast text styles.
  */
 import { t } from "../helpers/i18n.js";
 
@@ -14,7 +16,7 @@ import { t } from "../helpers/i18n.js";
 export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false) {
     const isOwner = currentUser && s.translatedBy === currentUser.uid;
     const isFav = userProfileData && userProfileData.favorites && userProfileData.favorites.includes(s.id);
-    const favIconClass = isFav ? 'fa-solid fa-star text-amber-400' : 'fa-regular fa-star text-slate-300 dark:text-slate-600 hover:text-amber-300 dark:hover:text-amber-400';
+    const favIconClass = isFav ? 'fa-solid fa-star text-amber-400' : 'fa-regular fa-star text-slate-400 dark:text-slate-500 hover:text-amber-400 dark:hover:text-amber-400';
     const isSongHidden = s.hidden === true;
 
     let hiddenBadge = '';
@@ -39,20 +41,54 @@ export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false
 
     let lyricsLayout = '';
     try {
-        const parsed = JSON.parse(s.translatedOutput);
-        if (Array.isArray(parsed)) {
-            parsed.forEach(line => {
-                if (s.language === 'japanese') {
-                    lyricsLayout += `<div class="border-b border-slate-100 dark:border-slate-700/60 pb-2 mb-2 text-xs md:text-sm"><p class="text-slate-400 dark:text-slate-400 font-medium">${t('card.original')} ${line.original || ''}</p><p class="text-slate-500 dark:text-slate-300 font-mono">${t('card.romajiEn')} ${line.romaji_en || ''}</p><p class="text-indigo-400 dark:text-indigo-400">${t('card.romajiTh')} ${line.romaji_th || ''}</p><p class="text-slate-800 dark:text-slate-100 font-bold mt-0.5">${t('card.translation')} ${line.thai || ''}</p></div>`;
-                } else if (s.language === 'chinese') {
-                    lyricsLayout += `<div class="border-b border-slate-100 dark:border-slate-700/60 pb-2 mb-2 text-xs md:text-sm"><p class="text-slate-400 dark:text-slate-400 font-medium">${t('card.original')} ${line.original || ''}</p><p class="text-slate-500 dark:text-slate-300 font-mono">${t('card.pinyinEn')} ${line.pinyin_en || ''}</p><p class="text-indigo-400 dark:text-indigo-400">${t('card.pinyinTh')} ${line.pinyin_th || ''}</p><p class="text-slate-800 dark:text-slate-100 font-bold mt-0.5">${t('card.translation')} ${line.thai || ''}</p></div>`;
-                } else {
-                    lyricsLayout += `<div class="border-b border-slate-100 dark:border-slate-700/60 pb-2 mb-2 text-xs md:text-sm"><p class="text-slate-400 dark:text-slate-400">${t('card.original')} ${line.original || ''}</p><p class="text-slate-800 dark:text-slate-100 font-bold mt-0.5">${t('card.translation')} ${line.thai || ''}</p></div>`;
+        let rawOutput = s.translatedOutput;
+        if (typeof rawOutput === 'string') {
+            rawOutput = rawOutput.trim();
+            // Handle cases where string was double-stringified
+            if (rawOutput.startsWith('"') && rawOutput.endsWith('"')) {
+                try { rawOutput = JSON.parse(rawOutput); } catch (e) {}
+            }
+            const firstBracket = rawOutput.indexOf('[');
+            const lastBracket = rawOutput.lastIndexOf(']');
+            if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
+                rawOutput = rawOutput.substring(firstBracket, lastBracket + 1);
+            }
+        }
+
+        const parsed = typeof rawOutput === 'string' ? JSON.parse(rawOutput) : rawOutput;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+            parsed.forEach((line, idx) => {
+                if (typeof line === 'string') {
+                    lyricsLayout += `
+                    <div class="border-b border-slate-100 dark:border-slate-700/60 pb-2 mb-2 text-xs md:text-sm">
+                        <p class="text-slate-700 dark:text-slate-200 font-medium">${escapeHtml(line)}</p>
+                    </div>`;
+                    return;
                 }
+
+                // Resilient key mapping for multi-language & bilingual compatibility
+                const origText = line.original || line.text || line.source || line.japanese || line.chinese || line.english || '';
+                const thaiText = line.thai || line.translation || line.meaning || line.thai_translation || '';
+                const romEn = line.romaji_en || line.pinyin_en || line.romaji || line.pinyin || '';
+                const romTh = line.romaji_th || line.pinyin_th || line.thai_phonetic || '';
+
+                const isChineseSong = s.language === 'chinese';
+                const enPhoneticLabel = isChineseSong ? t('card.pinyinEn') : t('card.romajiEn');
+                const thPhoneticLabel = isChineseSong ? t('card.pinyinTh') : t('card.romajiTh');
+
+                lyricsLayout += `
+                <div class="border-b border-slate-100 dark:border-slate-700/60 pb-2 mb-2 text-xs md:text-sm">
+                    ${origText ? `<p class="text-slate-700 dark:text-slate-200 font-semibold"><span class="text-slate-400 dark:text-slate-400 font-normal mr-1">${t('card.original')}</span>${escapeHtml(origText)}</p>` : ''}
+                    ${romEn && romEn.trim() && romEn.trim() !== origText.trim() ? `<p class="text-slate-700 dark:text-slate-300 font-mono font-medium"><span class="text-slate-400 dark:text-slate-400 font-normal font-sans mr-1">${enPhoneticLabel}</span>${escapeHtml(romEn)}</p>` : ''}
+                    ${romTh && romTh.trim() ? `<p class="text-indigo-600 dark:text-indigo-400 font-medium"><span class="text-indigo-400 dark:text-indigo-400 font-normal mr-1">${thPhoneticLabel}</span>${escapeHtml(romTh)}</p>` : ''}
+                    ${thaiText ? `<p class="text-slate-900 dark:text-slate-50 font-bold mt-1"><span class="text-slate-500 dark:text-slate-400 font-normal mr-1">${t('card.translation')}</span>${escapeHtml(thaiText)}</p>` : ''}
+                </div>`;
             });
+        } else {
+            lyricsLayout = `<p class="text-xs text-slate-600 dark:text-slate-300 italic whitespace-pre-wrap">${escapeHtml(s.translatedOutput)}</p>`;
         }
     } catch (e) {
-        lyricsLayout = `<p class="text-xs text-slate-500 dark:text-slate-400 italic whitespace-pre-wrap">${s.translatedOutput}</p>`;
+        lyricsLayout = `<p class="text-xs text-slate-600 dark:text-slate-300 italic whitespace-pre-wrap">${escapeHtml(s.translatedOutput)}</p>`;
     }
 
     const safeUserName = (s.userName || 'User').replace(/"/g, '&quot;');
@@ -65,24 +101,24 @@ export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false
         <div class="flex justify-between items-start gap-2 mb-2">
             <div class="truncate">
                 <div class="flex items-center gap-2 mb-0.5 flex-wrap">
-                    <h3 itemprop="name" class="font-bold text-base md:text-lg text-slate-800 dark:text-slate-100 font-heading leading-tight truncate" title="${safeTitle}">${s.songTitle}</h3>
+                    <h3 itemprop="name" class="font-bold text-base md:text-lg text-slate-900 dark:text-white font-heading leading-tight truncate" title="${safeTitle}">${s.songTitle}</h3>
                     ${hiddenBadge}
                 </div>
-                <p itemprop="byArtist" class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium truncate" title="${safeArtist}">${s.artist}</p>
+                <p itemprop="byArtist" class="text-slate-600 dark:text-slate-300 text-xs md:text-sm font-medium truncate" title="${safeArtist}">${s.artist}</p>
             </div>
             <button type="button" onclick="toggleFavorite(event, '${s.id}')" aria-label="${t('card.favAria')}" class="text-xl p-1 transition shrink-0 hover:scale-110 active:scale-95" title="${t('card.favTooltip')}"><i id="fav-icon-${s.id}" class="${favIconClass}"></i></button>
         </div>
         
-        <div class="bg-slate-50 dark:bg-slate-900/70 rounded-xl p-3 my-2 max-h-48 md:max-h-56 overflow-y-auto border border-slate-100 dark:border-slate-700/60" itemprop="recordingOf">${lyricsLayout}</div>
+        <div class="bg-slate-50 dark:bg-slate-900/80 rounded-xl p-3.5 my-2 max-h-52 md:max-h-60 overflow-y-auto border border-slate-200/80 dark:border-slate-700/70" itemprop="recordingOf">${lyricsLayout}</div>
         ${mediaLayout}
 
         <!-- Disclaimer Box -->
-        <div class="mt-3 p-2.5 rounded-xl bg-slate-50/90 dark:bg-slate-900/50 border border-slate-200/70 dark:border-slate-700/60 text-[11px] text-slate-500 dark:text-slate-400">
-            <div class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-1">
-                <i class="fa-solid fa-shield-halved text-indigo-500 dark:text-indigo-400 text-xs"></i>
+        <div class="mt-3 p-2.5 rounded-xl bg-slate-50/90 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700/70 text-[11px]">
+            <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-shield-halved text-indigo-600 dark:text-indigo-400 text-xs"></i>
                 <span>${t('disclaimer.title')}</span>
             </div>
-            <p class="leading-relaxed mb-1.5 text-[10.5px] text-slate-600 dark:text-slate-400">
+            <p class="leading-relaxed mb-1.5 text-[10.5px] text-slate-600 dark:text-slate-300">
                 ${t('disclaimer.text')}
             </p>
             <p class="text-indigo-600 dark:text-indigo-400 font-semibold flex items-center gap-1 text-[10.5px]">
@@ -91,42 +127,47 @@ export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false
             </p>
         </div>
 
-        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/80 flex items-center justify-between gap-2">
+        <div class="mt-4 pt-3 border-t border-slate-200/70 dark:border-slate-700/80 flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5 cursor-pointer shrink-0" onclick="viewPublicProfile('${s.translatedBy}')" title="${t('card.profileTooltip')}">
                 <img src="${s.userPhoto || 'https://via.placeholder.com/150'}" alt="${safeUserName} รูปโปรไฟล์" loading="lazy" width="28" height="28" class="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700">
-                <span class="text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 truncate max-w-[80px] md:max-w-[120px]">${s.userName || 'Unknown'}</span>
+                <span class="text-[10px] md:text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 truncate max-w-[80px] md:max-w-[120px]">${s.userName || 'Unknown'}</span>
             </div>
             <div class="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                <!-- AI Vocab Analysis Trigger Button -->
+                <button type="button" onclick="loadSongToVocabAnalysis('${s.id}')" aria-label="${t('card.btnAnalyzeVocab')}" class="text-[10px] md:text-xs font-bold text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-100 bg-indigo-50 dark:bg-indigo-950/70 hover:bg-indigo-100 dark:hover:bg-indigo-900/80 border border-indigo-200/80 dark:border-indigo-800/80 px-2 md:px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition shadow-2xs">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> <span>${t('card.btnAnalyzeVocab')}</span>
+                </button>
+
                 <div class="relative inline-block text-left export-dropdown-container" id="export-dropdown-${s.id}">
-                    <button type="button" onclick="toggleExportMenu(event, '${s.id}')" aria-label="${t('card.btnExport')}" class="text-[10px] md:text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 px-2 md:px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition">
-                        <i class="fa-solid fa-file-export text-indigo-500 dark:text-indigo-400"></i> <span>${t('card.btnExport')}</span> <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
+                    <button type="button" onclick="toggleExportMenu(event, '${s.id}')" aria-label="${t('card.btnExport')}" class="text-[10px] md:text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 bg-slate-100 dark:bg-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 px-2 md:px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition">
+                        <i class="fa-solid fa-file-export text-indigo-600 dark:text-indigo-400"></i> <span>${t('card.btnExport')}</span> <i class="fa-solid fa-chevron-down text-[8px] opacity-70"></i>
                     </button>
                     <div id="export-menu-${s.id}" class="hidden absolute right-0 bottom-full mb-1.5 w-36 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-30 text-xs font-medium">
-                        <button type="button" onclick="triggerExport(event, '${s.id}', 'csv')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+                        <button type="button" onclick="triggerExport(event, '${s.id}', 'csv')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
                             <i class="fa-solid fa-file-csv text-emerald-500 w-4 text-center"></i> ${t('export.csv')}
                         </button>
-                        <button type="button" onclick="triggerExport(event, '${s.id}', 'pdf')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+                        <button type="button" onclick="triggerExport(event, '${s.id}', 'pdf')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
                             <i class="fa-solid fa-file-pdf text-red-500 w-4 text-center"></i> ${t('export.pdf')}
                         </button>
-                        <button type="button" onclick="triggerExport(event, '${s.id}', 'html')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+                        <button type="button" onclick="triggerExport(event, '${s.id}', 'html')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
                             <i class="fa-solid fa-file-code text-indigo-500 w-4 text-center"></i> ${t('export.html')}
                         </button>
-                        <button type="button" onclick="triggerExport(event, '${s.id}', 'json')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+                        <button type="button" onclick="triggerExport(event, '${s.id}', 'json')" class="w-full px-3 py-1.5 text-left flex items-center gap-2 hover:bg-indigo-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition">
                             <i class="fa-solid fa-code text-amber-500 w-4 text-center"></i> ${t('export.json')}
                         </button>
                     </div>
                 </div>
                 ${isOwner || isAdmin ? `
-                    <button type="button" onclick="openEditor('${s.id}')" aria-label="${t('card.btnEdit')}" class="text-[10px] md:text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-signature"></i> ${t('card.btnEdit')}</button>
+                    <button type="button" onclick="openEditor('${s.id}')" aria-label="${t('card.btnEdit')}" class="text-[10px] md:text-xs font-bold text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-100 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200/60 dark:border-indigo-800/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-signature"></i> ${t('card.btnEdit')}</button>
                 ` : ''}
                 ${isOwner ? `
-                    <button type="button" onclick="deleteSong('${s.id}')" aria-label="${t('card.btnDelete')}" class="text-[10px] md:text-xs font-bold text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-trash-can"></i> ${t('card.btnDelete')}</button>
+                    <button type="button" onclick="deleteSong('${s.id}')" aria-label="${t('card.btnDelete')}" class="text-[10px] md:text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 border border-red-200/60 dark:border-red-800/60 px-2 md:px-3 py-1.5 rounded-lg"><i class="fa-solid fa-trash-can"></i> ${t('card.btnDelete')}</button>
                 ` : ''}
                 ${isAdmin ? `
-                    <button type="button" onclick="toggleHideSong('${s.id}', ${isSongHidden})" aria-label="${isSongHidden ? t('card.btnShow') : t('card.btnHide')}" class="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-300 hover:text-indigo-800 dark:hover:text-indigo-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 px-2 md:px-3 py-1.5 rounded-lg">
+                    <button type="button" onclick="toggleHideSong('${s.id}', ${isSongHidden})" aria-label="${isSongHidden ? t('card.btnShow') : t('card.btnHide')}" class="text-[10px] md:text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-indigo-800 dark:hover:text-indigo-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 px-2 md:px-3 py-1.5 rounded-lg">
                         <i class="fa-solid ${isSongHidden ? 'fa-eye' : 'fa-eye-slash'}"></i> ${isSongHidden ? t('card.btnShow') : t('card.btnHide')}
                     </button>
-                    <button type="button" onclick="openAdminAction('${s.translatedBy}', 'ban_user', '${(s.userName || '').replace(/'/g, "\\'")}')" aria-label="${t('card.btnBan')}" class="text-[10px] md:text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/60 bg-slate-100 dark:bg-slate-700 px-2 md:px-3 py-1.5 rounded-lg">
+                    <button type="button" onclick="openAdminAction('${s.translatedBy}', 'ban_user', '${(s.userName || '').replace(/'/g, "\\'")}')" aria-label="${t('card.btnBan')}" class="text-[10px] md:text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/60 bg-slate-100 dark:bg-slate-700 border border-red-200 dark:border-red-900/50 px-2 md:px-3 py-1.5 rounded-lg">
                         <i class="fa-solid fa-ban"></i> ${t('card.btnBan')}
                     </button>
                 ` : ''}
@@ -135,3 +176,12 @@ export function renderLyricCard(s, currentUser, userProfileData, isAdmin = false
     </article>`;
 }
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}

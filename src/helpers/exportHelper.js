@@ -11,11 +11,35 @@
 export function parseLyrics(song) {
     if (!song || !song.translatedOutput) return [];
     try {
-        const parsed = JSON.parse(song.translatedOutput);
-        if (Array.isArray(parsed)) return parsed;
+        let output = song.translatedOutput;
+        if (typeof output === 'string') {
+            output = output.trim();
+            if (output.startsWith('"') && output.endsWith('"')) {
+                try { output = JSON.parse(output); } catch (e) {}
+            }
+            const firstBracket = output.indexOf('[');
+            const lastBracket = output.lastIndexOf(']');
+            if (firstBracket !== -1 && lastBracket !== -1 && lastBracket > firstBracket) {
+                output = output.substring(firstBracket, lastBracket + 1);
+            }
+        }
+        const parsed = typeof output === 'string' ? JSON.parse(output) : output;
+        if (Array.isArray(parsed)) {
+            return parsed.map(item => {
+                if (typeof item === 'string') return { original: item, thai: '' };
+                return {
+                    original: item.original || item.text || item.source || item.japanese || item.chinese || item.english || '',
+                    romaji_en: item.romaji_en || item.pinyin_en || item.romaji || item.pinyin || '',
+                    romaji_th: item.romaji_th || item.pinyin_th || item.thai_phonetic || '',
+                    pinyin_en: item.pinyin_en || item.pinyin || item.romaji_en || '',
+                    pinyin_th: item.pinyin_th || item.thai_phonetic || item.romaji_th || '',
+                    thai: item.thai || item.translation || item.meaning || item.thai_translation || ''
+                };
+            });
+        }
     } catch (e) {
         // Fallback for plain text format
-        const lines = song.translatedOutput.split('\n').filter(l => l.trim().length > 0);
+        const lines = String(song.translatedOutput).split('\n').filter(l => l.trim().length > 0);
         return lines.map(line => ({ original: line, thai: '' }));
     }
     return [];
